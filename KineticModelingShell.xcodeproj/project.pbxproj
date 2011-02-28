@@ -1,0 +1,540 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		256AC3DA0F4B6AC300CF3369 /* KMShellAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* KMShellAppDelegate.mm */; };
+		276C56F6124587D90009CB5D /* CustomModelLoadInput.xib in Resources */ = {isa = PBXBuildFile; fileRef = 276C56F5124587D90009CB5D /* CustomModelLoadInput.xib */; };
+		276C56FA124588990009CB5D /* CustomModelLoadTissue.xib in Resources */ = {isa = PBXBuildFile; fileRef = 276C56F9124588990009CB5D /* CustomModelLoadTissue.xib */; };
+		27C52E671237AA7300808233 /* FDGParamUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C52E5A1237AA7300808233 /* FDGParamUI.m */; };
+		27C52E681237AA7300808233 /* KMData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27C52E5C1237AA7300808233 /* KMData.mm */; };
+		27C52E691237AA7300808233 /* KMDataProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27C52E5E1237AA7300808233 /* KMDataProcessor.mm */; };
+		27C52E6B1237AA7300808233 /* KMResultDisplay.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27C52E621237AA7300808233 /* KMResultDisplay.mm */; };
+		27C52E6C1237AA7300808233 /* KMResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C52E641237AA7300808233 /* KMResults.m */; };
+		27C52E6D1237AA7300808233 /* LoadSingleInputManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27C52E661237AA7300808233 /* LoadSingleInputManager.mm */; };
+		27C52E711237AA8500808233 /* DisplayResults.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27C52E6E1237AA8500808233 /* DisplayResults.xib */; };
+		27C52E721237AA8500808233 /* FDGParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27C52E6F1237AA8500808233 /* FDGParameters.xib */; };
+		27C52E731237AA8500808233 /* LoadData.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27C52E701237AA8500808233 /* LoadData.xib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		DD01B5CD124680E000664D2F /* KMCustomInputInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD01B5CC124680E000664D2F /* KMCustomInputInterface.mm */; };
+		DD01B5D2124683A300664D2F /* KMCustomTissueInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD01B5D1124683A300664D2F /* KMCustomTissueInterface.mm */; };
+		DD01B688124688B500664D2F /* fitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD01B680124688B500664D2F /* fitter.cpp */; };
+		DD01B689124688B500664D2F /* gsl_ext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD01B681124688B500664D2F /* gsl_ext.cpp */; };
+		DD01B68B124688B500664D2F /* mat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD01B683124688B500664D2F /* mat.cpp */; };
+		DD01B68C124688B500664D2F /* model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD01B684124688B500664D2F /* model.cpp */; };
+		DD01B68D124688B500664D2F /* ode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD01B685124688B500664D2F /* ode.cpp */; };
+		DD01B68E124688B500664D2F /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD01B686124688B500664D2F /* util.cpp */; };
+		DD01B68F124688B500664D2F /* vec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD01B687124688B500664D2F /* vec.cpp */; };
+		DD01B74612468EB000664D2F /* KMModelRunningConditions.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD01B74512468EB000664D2F /* KMModelRunningConditions.mm */; };
+		DD389A6E1248423B0051929B /* CustomModelWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD389A6D1248423B0051929B /* CustomModelWindow.xib */; };
+		DD389A74124845780051929B /* KMCustomModelWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD389A73124845780051929B /* KMCustomModelWindow.mm */; };
+		DD3A27171242D8DD0087678C /* libgsl.a in Resources */ = {isa = PBXBuildFile; fileRef = DD3A27151242D8DD0087678C /* libgsl.a */; };
+		DD3A27181242D8DD0087678C /* libgslcblas.a in Resources */ = {isa = PBXBuildFile; fileRef = DD3A27161242D8DD0087678C /* libgslcblas.a */; };
+		DD54EDDF1246E90100A6DA3B /* KMCustomModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD54EDDE1246E90100A6DA3B /* KMCustomModel.mm */; };
+		DD54EE601246F0E800A6DA3B /* KMCustomCompartment.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD54EE5F1246F0E800A6DA3B /* KMCustomCompartment.mm */; };
+		DD54EE771246F68500A6DA3B /* KMCustomModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD54EE761246F68500A6DA3B /* KMCustomModelView.m */; };
+		DD75BE1612847B4B00DAD2D4 /* KMCustomInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD75BE1512847B4B00DAD2D4 /* KMCustomInput.mm */; };
+		DD75BE2912848E4100DAD2D4 /* KMBasicRunningConditions.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD75BE2812848E4100DAD2D4 /* KMBasicRunningConditions.mm */; };
+		DD97AF1D1299B70D002A091E /* KMParameter.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD97AF1C1299B70D002A091E /* KMParameter.mm */; };
+		DD97AF2C1299B8E1002A091E /* KMCustomParameter.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD97AF2B1299B8E1002A091E /* KMCustomParameter.mm */; };
+		DDA3639E131C2E520086186E /* generic-graph-model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA3639D131C2E520086186E /* generic-graph-model.cpp */; };
+		DDF9E77412B69E39008F2C57 /* SM2DGraphView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF9E77312B69E39008F2C57 /* SM2DGraphView.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		256AC3D80F4B6AC300CF3369 /* KMShellAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMShellAppDelegate.h; sourceTree = "<group>"; };
+		256AC3D90F4B6AC300CF3369 /* KMShellAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMShellAppDelegate.mm; sourceTree = "<group>"; };
+		256AC3F00F4B6AF500CF3369 /* KineticModelingShell_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KineticModelingShell_Prefix.pch; sourceTree = "<group>"; };
+		276C56F5124587D90009CB5D /* CustomModelLoadInput.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomModelLoadInput.xib; sourceTree = "<group>"; };
+		276C56F9124588990009CB5D /* CustomModelLoadTissue.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomModelLoadTissue.xib; sourceTree = "<group>"; };
+		27C52E591237AA7300808233 /* FDGParamUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDGParamUI.h; sourceTree = "<group>"; };
+		27C52E5A1237AA7300808233 /* FDGParamUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDGParamUI.m; sourceTree = "<group>"; };
+		27C52E5B1237AA7300808233 /* KMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMData.h; sourceTree = "<group>"; };
+		27C52E5C1237AA7300808233 /* KMData.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMData.mm; sourceTree = "<group>"; };
+		27C52E5D1237AA7300808233 /* KMDataProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMDataProcessor.h; sourceTree = "<group>"; };
+		27C52E5E1237AA7300808233 /* KMDataProcessor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMDataProcessor.mm; sourceTree = "<group>"; };
+		27C52E611237AA7300808233 /* KMResultDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMResultDisplay.h; sourceTree = "<group>"; };
+		27C52E621237AA7300808233 /* KMResultDisplay.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMResultDisplay.mm; sourceTree = "<group>"; };
+		27C52E631237AA7300808233 /* KMResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMResults.h; sourceTree = "<group>"; };
+		27C52E641237AA7300808233 /* KMResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMResults.m; sourceTree = "<group>"; };
+		27C52E651237AA7300808233 /* LoadSingleInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadSingleInputManager.h; sourceTree = "<group>"; };
+		27C52E661237AA7300808233 /* LoadSingleInputManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoadSingleInputManager.mm; sourceTree = "<group>"; };
+		27C52E6E1237AA8500808233 /* DisplayResults.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisplayResults.xib; sourceTree = "<group>"; };
+		27C52E6F1237AA8500808233 /* FDGParameters.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FDGParameters.xib; sourceTree = "<group>"; };
+		27C52E701237AA8500808233 /* LoadData.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadData.xib; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		8D1107310486CEB800E47090 /* KineticModelingShell-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "KineticModelingShell-Info.plist"; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* KineticModelingShell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KineticModelingShell.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD01B5CB124680E000664D2F /* KMCustomInputInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCustomInputInterface.h; sourceTree = "<group>"; };
+		DD01B5CC124680E000664D2F /* KMCustomInputInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMCustomInputInterface.mm; sourceTree = "<group>"; };
+		DD01B5D0124683A300664D2F /* KMCustomTissueInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCustomTissueInterface.h; sourceTree = "<group>"; };
+		DD01B5D1124683A300664D2F /* KMCustomTissueInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMCustomTissueInterface.mm; sourceTree = "<group>"; };
+		DD01B680124688B500664D2F /* fitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fitter.cpp; path = ../KineticModeling/km/fitter.cpp; sourceTree = SOURCE_ROOT; };
+		DD01B681124688B500664D2F /* gsl_ext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gsl_ext.cpp; path = ../KineticModeling/km/gsl_ext.cpp; sourceTree = SOURCE_ROOT; };
+		DD01B683124688B500664D2F /* mat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mat.cpp; path = ../KineticModeling/km/mat.cpp; sourceTree = SOURCE_ROOT; };
+		DD01B684124688B500664D2F /* model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = model.cpp; path = ../KineticModeling/km/model.cpp; sourceTree = SOURCE_ROOT; };
+		DD01B685124688B500664D2F /* ode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ode.cpp; path = ../KineticModeling/km/ode.cpp; sourceTree = SOURCE_ROOT; };
+		DD01B686124688B500664D2F /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = util.cpp; path = ../KineticModeling/km/util.cpp; sourceTree = SOURCE_ROOT; };
+		DD01B687124688B500664D2F /* vec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vec.cpp; path = ../KineticModeling/km/vec.cpp; sourceTree = SOURCE_ROOT; };
+		DD01B74412468EB000664D2F /* KMModelRunningConditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMModelRunningConditions.h; sourceTree = "<group>"; };
+		DD01B74512468EB000664D2F /* KMModelRunningConditions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMModelRunningConditions.mm; sourceTree = "<group>"; };
+		DD389A6D1248423B0051929B /* CustomModelWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomModelWindow.xib; sourceTree = "<group>"; };
+		DD389A72124845780051929B /* KMCustomModelWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCustomModelWindow.h; sourceTree = "<group>"; };
+		DD389A73124845780051929B /* KMCustomModelWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMCustomModelWindow.mm; sourceTree = "<group>"; };
+		DD3A27151242D8DD0087678C /* libgsl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgsl.a; sourceTree = "<group>"; };
+		DD3A27161242D8DD0087678C /* libgslcblas.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgslcblas.a; sourceTree = "<group>"; };
+		DD54EDDD1246E90100A6DA3B /* KMCustomModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCustomModel.h; sourceTree = "<group>"; };
+		DD54EDDE1246E90100A6DA3B /* KMCustomModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMCustomModel.mm; sourceTree = "<group>"; };
+		DD54EE5E1246F0E800A6DA3B /* KMCustomCompartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCustomCompartment.h; sourceTree = "<group>"; };
+		DD54EE5F1246F0E800A6DA3B /* KMCustomCompartment.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMCustomCompartment.mm; sourceTree = "<group>"; };
+		DD54EE751246F68500A6DA3B /* KMCustomModelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCustomModelView.h; sourceTree = "<group>"; };
+		DD54EE761246F68500A6DA3B /* KMCustomModelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMCustomModelView.m; sourceTree = "<group>"; };
+		DD5C75F7123AA52F007F581D /* fitter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = fitter.hpp; path = ../KineticModeling/km/fitter.hpp; sourceTree = SOURCE_ROOT; };
+		DD5C75F8123AA52F007F581D /* global.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = global.hpp; path = ../KineticModeling/km/global.hpp; sourceTree = SOURCE_ROOT; };
+		DD5C75F9123AA52F007F581D /* gsl_ext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gsl_ext.hpp; path = ../KineticModeling/km/gsl_ext.hpp; sourceTree = SOURCE_ROOT; };
+		DD5C75FA123AA52F007F581D /* mat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = mat.hpp; path = ../KineticModeling/km/mat.hpp; sourceTree = SOURCE_ROOT; };
+		DD5C75FB123AA52F007F581D /* model.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = model.hpp; path = ../KineticModeling/km/model.hpp; sourceTree = SOURCE_ROOT; };
+		DD5C75FC123AA52F007F581D /* ode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ode.hpp; path = ../KineticModeling/km/ode.hpp; sourceTree = SOURCE_ROOT; };
+		DD5C75FD123AA52F007F581D /* util.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = util.hpp; path = ../KineticModeling/km/util.hpp; sourceTree = SOURCE_ROOT; };
+		DD5C75FE123AA52F007F581D /* vec.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = vec.hpp; path = ../KineticModeling/km/vec.hpp; sourceTree = SOURCE_ROOT; };
+		DD75BE1412847B4B00DAD2D4 /* KMCustomInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCustomInput.h; sourceTree = "<group>"; };
+		DD75BE1512847B4B00DAD2D4 /* KMCustomInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMCustomInput.mm; sourceTree = "<group>"; };
+		DD75BE2712848E4100DAD2D4 /* KMBasicRunningConditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMBasicRunningConditions.h; sourceTree = "<group>"; };
+		DD75BE2812848E4100DAD2D4 /* KMBasicRunningConditions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMBasicRunningConditions.mm; sourceTree = "<group>"; };
+		DD97AF1B1299B70D002A091E /* KMParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMParameter.h; sourceTree = "<group>"; };
+		DD97AF1C1299B70D002A091E /* KMParameter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMParameter.mm; sourceTree = "<group>"; };
+		DD97AF2A1299B8E1002A091E /* KMCustomParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCustomParameter.h; sourceTree = "<group>"; };
+		DD97AF2B1299B8E1002A091E /* KMCustomParameter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KMCustomParameter.mm; sourceTree = "<group>"; };
+		DDA3639D131C2E520086186E /* generic-graph-model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "generic-graph-model.cpp"; sourceTree = "<group>"; };
+		DDF9E77312B69E39008F2C57 /* SM2DGraphView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SM2DGraphView.framework; path = Library/Frameworks/SM2DGraphView.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				DDF9E77412B69E39008F2C57 /* SM2DGraphView.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				DDA7B8311247C5F300E9AD5F /* Core Data Groups */,
+				DDFE8C351247C6EF00332844 /* CustomModel */,
+				DD3A26F81242D61D0087678C /* LibKM */,
+				DDFCD34E1294539200C5F82C /* Others */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* KineticModelingShell.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* KineticModelingShell */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = KineticModelingShell;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				27C52E6E1237AA8500808233 /* DisplayResults.xib */,
+				27C52E6F1237AA8500808233 /* FDGParameters.xib */,
+				276C56F5124587D90009CB5D /* CustomModelLoadInput.xib */,
+				276C56F9124588990009CB5D /* CustomModelLoadTissue.xib */,
+				DD389A6D1248423B0051929B /* CustomModelWindow.xib */,
+				27C52E701237AA8500808233 /* LoadData.xib */,
+				256AC3F00F4B6AF500CF3369 /* KineticModelingShell_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* KineticModelingShell-Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD3A27151242D8DD0087678C /* libgsl.a */,
+				DD3A27161242D8DD0087678C /* libgslcblas.a */,
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+				DDF9E77312B69E39008F2C57 /* SM2DGraphView.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD3A26F81242D61D0087678C /* LibKM */ = {
+			isa = PBXGroup;
+			children = (
+				DDA3639D131C2E520086186E /* generic-graph-model.cpp */,
+				DD01B680124688B500664D2F /* fitter.cpp */,
+				DD01B681124688B500664D2F /* gsl_ext.cpp */,
+				DD01B683124688B500664D2F /* mat.cpp */,
+				DD01B684124688B500664D2F /* model.cpp */,
+				DD01B685124688B500664D2F /* ode.cpp */,
+				DD01B686124688B500664D2F /* util.cpp */,
+				DD01B687124688B500664D2F /* vec.cpp */,
+				DD5C75F7123AA52F007F581D /* fitter.hpp */,
+				DD5C75F8123AA52F007F581D /* global.hpp */,
+				DD5C75F9123AA52F007F581D /* gsl_ext.hpp */,
+				DD5C75FA123AA52F007F581D /* mat.hpp */,
+				DD5C75FB123AA52F007F581D /* model.hpp */,
+				DD5C75FC123AA52F007F581D /* ode.hpp */,
+				DD5C75FD123AA52F007F581D /* util.hpp */,
+				DD5C75FE123AA52F007F581D /* vec.hpp */,
+			);
+			name = LibKM;
+			sourceTree = "<group>";
+		};
+		DDA7B8311247C5F300E9AD5F /* Core Data Groups */ = {
+			isa = PBXGroup;
+			children = (
+				27C52E5B1237AA7300808233 /* KMData.h */,
+				27C52E5C1237AA7300808233 /* KMData.mm */,
+				27C52E631237AA7300808233 /* KMResults.h */,
+				27C52E641237AA7300808233 /* KMResults.m */,
+				DD01B74412468EB000664D2F /* KMModelRunningConditions.h */,
+				DD01B74512468EB000664D2F /* KMModelRunningConditions.mm */,
+			);
+			name = "Core Data Groups";
+			sourceTree = "<group>";
+		};
+		DDFCD34E1294539200C5F82C /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				27C52E5E1237AA7300808233 /* KMDataProcessor.mm */,
+				27C52E611237AA7300808233 /* KMResultDisplay.h */,
+				27C52E621237AA7300808233 /* KMResultDisplay.mm */,
+				27C52E591237AA7300808233 /* FDGParamUI.h */,
+				27C52E5A1237AA7300808233 /* FDGParamUI.m */,
+				27C52E651237AA7300808233 /* LoadSingleInputManager.h */,
+				27C52E661237AA7300808233 /* LoadSingleInputManager.mm */,
+				256AC3D80F4B6AC300CF3369 /* KMShellAppDelegate.h */,
+				256AC3D90F4B6AC300CF3369 /* KMShellAppDelegate.mm */,
+				27C52E5D1237AA7300808233 /* KMDataProcessor.h */,
+			);
+			name = Others;
+			sourceTree = "<group>";
+		};
+		DDFE8C351247C6EF00332844 /* CustomModel */ = {
+			isa = PBXGroup;
+			children = (
+				DD389A72124845780051929B /* KMCustomModelWindow.h */,
+				DD389A73124845780051929B /* KMCustomModelWindow.mm */,
+				DD54EE751246F68500A6DA3B /* KMCustomModelView.h */,
+				DD54EE761246F68500A6DA3B /* KMCustomModelView.m */,
+				DD75BE2712848E4100DAD2D4 /* KMBasicRunningConditions.h */,
+				DD75BE2812848E4100DAD2D4 /* KMBasicRunningConditions.mm */,
+				DD54EDDE1246E90100A6DA3B /* KMCustomModel.mm */,
+				DD54EDDD1246E90100A6DA3B /* KMCustomModel.h */,
+				DD75BE1412847B4B00DAD2D4 /* KMCustomInput.h */,
+				DD75BE1512847B4B00DAD2D4 /* KMCustomInput.mm */,
+				DD97AF2A1299B8E1002A091E /* KMCustomParameter.h */,
+				DD97AF2B1299B8E1002A091E /* KMCustomParameter.mm */,
+				DD54EE5E1246F0E800A6DA3B /* KMCustomCompartment.h */,
+				DD54EE5F1246F0E800A6DA3B /* KMCustomCompartment.mm */,
+				DD97AF1B1299B70D002A091E /* KMParameter.h */,
+				DD97AF1C1299B70D002A091E /* KMParameter.mm */,
+				DD01B5CB124680E000664D2F /* KMCustomInputInterface.h */,
+				DD01B5CC124680E000664D2F /* KMCustomInputInterface.mm */,
+				DD01B5D0124683A300664D2F /* KMCustomTissueInterface.h */,
+				DD01B5D1124683A300664D2F /* KMCustomTissueInterface.mm */,
+			);
+			name = CustomModel;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* KineticModelingShell */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "KineticModelingShell" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KineticModelingShell;
+			productInstallPath = "$(HOME)/Applications";
+			productName = KineticModelingShell;
+			productReference = 8D1107320486CEB800E47090 /* KineticModelingShell.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "KineticModelingShell" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* KineticModelingShell */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* KineticModelingShell */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3A27171242D8DD0087678C /* libgsl.a in Resources */,
+				DD3A27181242D8DD0087678C /* libgslcblas.a in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				27C52E711237AA8500808233 /* DisplayResults.xib in Resources */,
+				27C52E721237AA8500808233 /* FDGParameters.xib in Resources */,
+				27C52E731237AA8500808233 /* LoadData.xib in Resources */,
+				276C56F6124587D90009CB5D /* CustomModelLoadInput.xib in Resources */,
+				276C56FA124588990009CB5D /* CustomModelLoadTissue.xib in Resources */,
+				DD389A6E1248423B0051929B /* CustomModelWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				256AC3DA0F4B6AC300CF3369 /* KMShellAppDelegate.mm in Sources */,
+				27C52E671237AA7300808233 /* FDGParamUI.m in Sources */,
+				27C52E681237AA7300808233 /* KMData.mm in Sources */,
+				27C52E691237AA7300808233 /* KMDataProcessor.mm in Sources */,
+				27C52E6B1237AA7300808233 /* KMResultDisplay.mm in Sources */,
+				27C52E6C1237AA7300808233 /* KMResults.m in Sources */,
+				27C52E6D1237AA7300808233 /* LoadSingleInputManager.mm in Sources */,
+				DD01B5CD124680E000664D2F /* KMCustomInputInterface.mm in Sources */,
+				DD01B5D2124683A300664D2F /* KMCustomTissueInterface.mm in Sources */,
+				DD01B688124688B500664D2F /* fitter.cpp in Sources */,
+				DD01B689124688B500664D2F /* gsl_ext.cpp in Sources */,
+				DD01B68B124688B500664D2F /* mat.cpp in Sources */,
+				DD01B68C124688B500664D2F /* model.cpp in Sources */,
+				DD01B68D124688B500664D2F /* ode.cpp in Sources */,
+				DD01B68E124688B500664D2F /* util.cpp in Sources */,
+				DD01B68F124688B500664D2F /* vec.cpp in Sources */,
+				DD01B74612468EB000664D2F /* KMModelRunningConditions.mm in Sources */,
+				DD54EDDF1246E90100A6DA3B /* KMCustomModel.mm in Sources */,
+				DD54EE601246F0E800A6DA3B /* KMCustomCompartment.mm in Sources */,
+				DD54EE771246F68500A6DA3B /* KMCustomModelView.m in Sources */,
+				DD389A74124845780051929B /* KMCustomModelWindow.mm in Sources */,
+				DD75BE1612847B4B00DAD2D4 /* KMCustomInput.mm in Sources */,
+				DD75BE2912848E4100DAD2D4 /* KMBasicRunningConditions.mm in Sources */,
+				DD97AF1D1299B70D002A091E /* KMParameter.mm in Sources */,
+				DD97AF2C1299B8E1002A091E /* KMCustomParameter.mm in Sources */,
+				DDA3639E131C2E520086186E /* generic-graph-model.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DDD58150DA1D0A300B32029 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = KineticModelingShell_Prefix.pch;
+				INFOPLIST_FILE = "KineticModelingShell-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				PRODUCT_NAME = KineticModelingShell;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = KineticModelingShell_Prefix.pch;
+				INFOPLIST_FILE = "KineticModelingShell-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				PRODUCT_NAME = KineticModelingShell;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lgsl",
+					"-lgslcblas",
+				);
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				USER_HEADER_SEARCH_PATHS = /usr/local/include/;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lgsl",
+					"-lgslcblas",
+				);
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				USER_HEADER_SEARCH_PATHS = /usr/local/lib/;
+				VALID_ARCHS = "i386, ppc, x86_64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "KineticModelingShell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "KineticModelingShell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
