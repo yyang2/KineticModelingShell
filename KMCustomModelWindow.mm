@@ -116,7 +116,7 @@
 	[box2 setStringValue:[NSString stringWithFormat:@"%f", param.upperbound]];
 	[box3 setStringValue:[NSString stringWithFormat:@"%f", param.lowerbound]];
 	[box4 setStringValue:[NSString stringWithFormat:@"%f", param.initial]];	
-	
+
 }
 
 -(void)updateBoxesComp
@@ -139,12 +139,18 @@
 	KMCustomInput *input = [selected objectForKey:@"KMCustomInput"];
 	[box1 setStringValue:input.inputname];
 	[des1 setStringValue:@"Name"];
-	if(input.destination){
-	[box2 setStringValue:[[input destination] compartmentname]];
-	[des2 setStringValue:@"Input Compartment"];
-	}
-	[check1 setEnabled:NO];
-	[check1 setTitle:@"Has Valid Data"];
+	
+	[box2 setStringValue:[NSString stringWithFormat:@"%f", input.upperbound]];
+	[des2 setStringValue:@"Input Upperbound"];
+	
+	[box3 setStringValue:[NSString stringWithFormat:@"%f", input.lowerbound]];
+	[des3 setStringValue:@"Input Lowerbound"];
+	
+	[box4 setStringValue:[NSString stringWithFormat:@"%f", input.initial]];
+	[des4 setStringValue:@"Input Initial"];
+	
+	[check1 setEnabled:input.optimize];
+	[check1 setTitle:@"Optimize"];
 
 	if(input.inputData) [check1 setState:NSOnState];
 	else [check1 setState:NSOffState];
@@ -197,8 +203,24 @@
 			
 		}
 		else if(sender == check1)
-			[self changeParameter:[NSDictionary dictionaryWithObjectsAndKeys:[selected objectForKey:@"KMCustomCompartment"], @"Compartment", [NSNumber numberWithInt:check1.state], @"Tissue", nil]];
+			[self changeCompartment:[NSDictionary dictionaryWithObjectsAndKeys:[selected objectForKey:@"KMCustomCompartment"], @"Compartment", [NSNumber numberWithInt:check1.state], @"Tissue", nil]];
 		else return;
+	}
+	else if ([[[selected allKeys] lastObject] isEqualToString:@"KMCustomInput"]){
+		if(sender == box1) 
+			[self changeInput:[NSDictionary dictionaryWithObjectsAndKeys:[selected objectForKey:@"KMCustomInput"] , @"Input", [sender stringValue], @"Name", nil]];
+		else if(sender == box2)
+			[self changeInput:[NSDictionary dictionaryWithObjectsAndKeys:[selected objectForKey:@"KMCustomInput"], @"Input", [NSNumber numberWithFloat:[sender floatValue]], @"Upperbound",nil]];
+		else if(sender == box3)
+			[self changeInput:[NSDictionary dictionaryWithObjectsAndKeys:[selected objectForKey:@"KMCustomInput"], @"Input", [NSNumber numberWithFloat:[sender floatValue]], @"Lowerbound",nil]];
+		else if(sender == box4)
+			[self changeInput:[NSDictionary dictionaryWithObjectsAndKeys:[selected objectForKey:@"KMCustomInput"], @"Input", [NSNumber numberWithFloat:[sender floatValue]], @"Initial",nil]];
+		else if(sender == check1)
+			[self changeInput:[NSDictionary dictionaryWithObjectsAndKeys:[selected objectForKey:@"KMCustomInput"], @"Input", [NSNumber numberWithInt:check1.state], @"Optimize", nil]];
+		
+	}
+	else {
+		NSLog(@"Unrecognized selected object passed to KMCustomModelWindow:%@", selected);
 	}
 
 }
@@ -321,9 +343,9 @@
 //
 
 -(void)changeInput:(NSDictionary*)d{
-	if(![d objectForKey:@"KMCustomInput"]) return;
+	if(![d objectForKey:@"Input"]) return;
 	
-	KMCustomInput *input = [d objectForKey:@"KMCustomInput"];
+	KMCustomInput *input = [d objectForKey:@"Input"];
 	NSString *restoreKey; id restoreobj;
 	if([d objectForKey:@"Name"]){
 		restoreKey = @"Name";
@@ -352,6 +374,38 @@
 		}
 		
 	}
+	else if([d objectForKey:@"Upperbound"]) {
+		restoreKey = @"Upperbound";
+		restoreobj =  [NSNumber numberWithFloat:input.upperbound];
+		if ([restoreobj floatValue] == input.upperbound) 
+			return;
+		else 
+			input.upperbound = [[d objectForKey:@"Upperbound"] doubleValue];
+	}
+	else if([d objectForKey:@"Lowerbound"]) {
+		restoreKey = @"Lowerbound";
+		restoreobj = [NSNumber numberWithFloat:input.lowerbound];
+		if ([restoreobj floatValue] == input.lowerbound) 
+			return;
+		else 
+			input.lowerbound = [[d objectForKey:@"Lowerbound"] doubleValue];
+	} 
+	else if([d objectForKey:@"Initial"]){
+		restoreKey = @"Initial";
+		restoreobj = [NSNumber numberWithFloat:input.initial];
+		if ([restoreobj floatValue] == input.initial) 
+			return;
+		else 
+			input.initial = [[d objectForKey:@"Initial"] doubleValue];
+	}
+	else if([d objectForKey:@"Optimize"]){
+		restoreKey = @"Optimize";
+		restoreobj = [NSNumber numberWithBool:input.optimize];
+		if ([restoreobj boolValue] == input.optimize) 
+			return;
+		else
+			input.optimize = [[d objectForKey:@"Optimize"] boolValue];
+	}	
 	else 
 		return;
 	

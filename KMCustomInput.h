@@ -16,9 +16,11 @@
 	KMData			*inputData;
 	NSRect			rect;
 	BOOL isSelected;
+	
 }
 
-@property BOOL isSelected;
+@property BOOL isSelected, optimize;
+@property double initial, lowerbound, upperbound;
 @property(retain) KMCustomCompartment * destination;
 @property NSRect rect;
 @property(retain) NSString *inputname;

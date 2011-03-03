@@ -77,9 +77,9 @@
 								</object>
 								<reference key="NSControlView" ref="364272120"/>
 								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">129</int>
+								<int key="NSButtonFlags2">268435585</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
+								<string key="NSKeyEquivalent">s</string>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -97,9 +97,9 @@
 								<reference key="NSSupport" ref="186337010"/>
 								<reference key="NSControlView" ref="870308048"/>
 								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">129</int>
+								<int key="NSButtonFlags2">268435585</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
+								<string key="NSKeyEquivalent">o</string>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -301,9 +301,9 @@
 								<reference key="NSSupport" ref="186337010"/>
 								<reference key="NSControlView" ref="646986674"/>
 								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">129</int>
+								<int key="NSButtonFlags2">268435585</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
+								<string key="NSKeyEquivalent">r</string>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -321,9 +321,9 @@
 								<reference key="NSSupport" ref="186337010"/>
 								<reference key="NSControlView" ref="707627160"/>
 								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">129</int>
+								<int key="NSButtonFlags2">268435585</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
+								<string key="NSKeyEquivalent">l</string>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -601,7 +601,7 @@
 								<int key="NSButtonFlags">-2038284033</int>
 								<int key="NSButtonFlags2">129</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
+								<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -1053,10 +1053,10 @@
 							<reference ref="340668268"/>
 							<reference ref="941206290"/>
 							<reference ref="789407132"/>
-							<reference ref="646986674"/>
 							<reference ref="870308048"/>
 							<reference ref="707627160"/>
 							<reference ref="364272120"/>
+							<reference ref="646986674"/>
 						</object>
 						<reference key="parent" ref="513744381"/>
 					</object>
@@ -1521,6 +1521,7 @@
 					<string>1220.IBPluginDependency</string>
 					<string>367.IBEditorWindowLastContentRect</string>
 					<string>367.IBPluginDependency</string>
+					<string>367.IBViewEditorWindowController.showingLayoutRectangles</string>
 					<string>367.IBWindowTemplateEditedContentRect</string>
 					<string>367.NSWindowTemplate.visibleAtLaunch</string>
 					<string>367.editorWindowContentRectSynchronizationRect</string>
@@ -1595,7 +1596,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABESYAAw58AAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABEV0AAwigAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1653,6 +1654,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{0, 453}, {958, 429}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<boolean value="YES"/>
 					<string>{{0, 453}, {958, 429}}</string>
 					<integer value="1"/>
 					<string>{{11, 666}, {480, 270}}</string>

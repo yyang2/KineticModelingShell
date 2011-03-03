@@ -16,17 +16,37 @@
 @synthesize destination;
 @synthesize isSelected;
 @synthesize inputData;
+@synthesize initial;
+@synthesize upperbound;
+@synthesize lowerbound;
+@synthesize optimize;
+
 -(id)initWithCoder:(NSCoder *)aDecoder{
 	self = [super init];
 	if(!self) return nil;
 	
 	//do not save loaded data!
-	self.inputname	 = [aDecoder decodeObjectForKey:@"Name"];
-	self.destination  = [aDecoder decodeObjectForKey:@"Destination"];
-	self.rect		 = NSRectFromString([aDecoder decodeObjectForKey:@"Rect"]);
-	isSelected	 = FALSE;
+	self.inputname		= [aDecoder decodeObjectForKey:@"Name"];
+	self.destination	= [aDecoder decodeObjectForKey:@"Destination"];
+	self.rect			= NSRectFromString([aDecoder decodeObjectForKey:@"Rect"]);
+	initial				= [[aDecoder decodeObjectForKey:@"Initial"] doubleValue];
+	upperbound			= [[aDecoder decodeObjectForKey:@"Upperbound"] doubleValue];
+	lowerbound			= [[aDecoder decodeObjectForKey:@"Lowerbound"] doubleValue];
+	optimize			= [[aDecoder decodeObjectForKey:@"Optimize"]	boolValue];
+	
+	isSelected= FALSE;
 	return self;
 }
+-(void)encodeWithCoder:(NSCoder *)aCoder{
+	[aCoder encodeObject:[NSNumber numberWithDouble:upperbound] forKey:@"Upperbound"];
+	[aCoder encodeObject:[NSNumber numberWithDouble:lowerbound] forKey:@"Lowerbound"];
+	[aCoder encodeObject:[NSNumber numberWithDouble:initial]	forKey:@"Initial"];
+	[aCoder encodeObject:[NSNumber numberWithBool:optimize]		forKey:@"Optimize"];
+	[aCoder encodeObject:inputname forKey:@"Name"];
+	[aCoder encodeObject:destination forKey:@"Destination"];
+	[aCoder encodeObject:NSStringFromRect(rect) forKey:@"Rect"];
+}
+
 
 -(BOOL)validInput
 {
@@ -46,6 +66,10 @@
 	destination  = nil;
 	rect		 = NSMakeRect(0, 0, 1, 1);
 	isSelected   = FALSE;
+	self.initial = 0.1;
+	self.upperbound = 1;
+	self.lowerbound = 0;
+	self.optimize = YES;
 	return self;
 }
 
@@ -66,11 +90,6 @@
 		return inputname;
 	}
 
-}
--(void)encodeWithCoder:(NSCoder *)aCoder{
-	[aCoder encodeObject:inputname forKey:@"Name"];
-	[aCoder encodeObject:destination forKey:@"Destination"];
-	[aCoder encodeObject:NSStringFromRect(rect) forKey:@"Rect"];
 }
 
 @end

@@ -42,6 +42,7 @@
 	}
 	[self initWithWindowNibName:@"CustomModelLoadInput"];
 	[self window];
+	[[self window] makeKeyAndOrderFront:self];
 	[Graph refreshDisplay:self];
 	return self;
 }

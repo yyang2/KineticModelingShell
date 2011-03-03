@@ -83,10 +83,10 @@ using namespace KM;
 	}];
 	
 	NSLog(@"SortedParameters:%@", sortedParameters);
-	bool	paramOpt[sortedParameters.count];
-	double	paramStart[sortedParameters.count];
-	double	paramLow[sortedParameters.count];
-	double	paramHigh[sortedParameters.count];
+	bool	paramOpt[sortedParameters.count+1];
+	double	paramStart[sortedParameters.count+1];
+	double	paramLow[sortedParameters.count+1];
+	double	paramHigh[sortedParameters.count+1];
 	
 	for(i=0;i<sortedParameters.count; i++){
 		KMCustomParameter *cur = [sortedParameters objectAtIndex:i];
@@ -97,7 +97,10 @@ using namespace KM;
 		NSLog(@"initial:%g, low %g, high %g", paramStart[i], paramLow[i], paramHigh[i]);
 	}
 
-	
+	paramLow[sortedParameters.count] = 0.f;
+	paramHigh[sortedParameters.count] = 1.f;
+	paramOpt[sortedParameters.count]=NO;
+	paramStart[sortedParameters.count]=.05;
 	//setup input vector
 	bool	input[compNumber];
 	bool	tiss[compNumber];
@@ -120,21 +123,28 @@ using namespace KM;
 	KM::matrix lb(compNumber, compNumber);
 	KM::matrix ub(compNumber, compNumber);
 	i=0;j=0;
+	
 	for(int k=0; k<sortedParameters.count; k++){
 		KMCustomParameter *cur = [sortedParameters objectAtIndex:k];
+		NSLog(@"Current parameter:%@", cur.paramname);
 		//loop through parameters to set adjMat to true		
 		//optimized since compList is already sorted
-		for(; i< compNumber;i++)
+		for(i=0; i< compNumber;i++)
 			if([compList objectAtIndex:i] == [cur origin_comp]) {
-				for(; j< compNumber;j++)
+				for(j=0; j< compNumber;j++)
 				{
 					if([compList objectAtIndex:j] == [cur destin_comp]) 
 					{
 						adjMat[i*compNumber+j] = true;
 						lb(i,j)=paramLow[k];
 						ub(i,j)=paramHigh[k];
+						NSLog(@"%i,%i:%@ %f-%f",i,j, cur.paramname, lb(i,j), ub(i,j));
+
 					}
-					else lb(i,j)=-1.f; 
+					else 
+					{
+						ub(i,j)=-1.f;
+					}
 				}
 			}
 	}
@@ -160,8 +170,8 @@ using namespace KM;
 	
 //	NSLog(@"Weights:%@", [self changeVectorIntoArray:tissue.weights]);
 
-	ModelFitter::Options options( sortedParameters.count );
-    memcpy( options.parameters_to_optimize, paramOpt, 
+	ModelFitter::Options options( sortedParameters.count);
+    memcpy( options.parameters_to_optimize, paramOpt,
 		   sizeof( paramOpt ) );
 	
 	fitter.verbose = true;
@@ -173,15 +183,15 @@ using namespace KM;
 		
 		KM::matrix cc(compNumber, compNumber);
 		KM::vector volume(1);
-		volume[0] = 0.05;
+		volume[0] = .3;
 		
 		
 		for (i = 0; i < compNumber; i++) {
 			for(j = 0; j <compNumber; j++) {
-				if(lb(i,j)>=0 && i!=j){
+				NSLog(@"object at %i,%i, lb: %f ub: %f %f",i,j, lb(i,j), ub(i,j), cc(i,j));
+				if(lb(i,j) < ub(i,j)){
 					cc(i,j) = ((double)rand()/(double)RAND_MAX)*(ub(i,j)-lb(i,j)) + lb(i,j);
-					NSLog(@"object at %i,%i, %f",i,j, cc(i,j));
-
+					NSLog(@"yes!");
 				}
 			}
 		}
@@ -196,6 +206,8 @@ using namespace KM;
 		for(i=0; i<result->parameters.size(); i++) {
 			[currentiteration setObject:[NSNumber numberWithDouble:result->parameters[i]] forKey:[[sortedParameters objectAtIndex:i] paramname]];
 		}
+		
+		NSLog(@"Size:%i",result->parameters.size());
 		[currentiteration setObject:[NSNumber numberWithDouble:result->wrss] forKey:@"WRSS"];
 		vector yvalues = result->func_value;
 		NSLog(@"YValues: %@",[self changeVectorIntoArray:yvalues]);
