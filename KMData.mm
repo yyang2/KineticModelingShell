@@ -17,39 +17,35 @@ using namespace KM;
 
 @synthesize useWeights;
 @synthesize inputfile;
+@synthesize conversion;
+@synthesize location;
+@synthesize timepoint;
+@synthesize timeconversion;
+@synthesize xvalues;
+@synthesize yvalues;
+@synthesize std;
 
 -(id)initWithFile:(NSString *)address isInput:(BOOL)input andTimePoint:(NSString *) type useWeights:(BOOL) flag{
-	if (![super init]) return nil;
-	inputfile	=	input;
-	useWeights	=	flag;
-	location	=	address;
-	timepoint	=	type;
-	
-	[location retain];
-	[timepoint retain];
+	self = [super init];
+	if (!self) return nil;
+	self.conversion = self.timeconversion = 1.f;
+	self.inputfile	=	input;
+	self.useWeights	=	flag;
+	self.location	=	address;
+	self.timepoint	=	type;
 
 	if([self loadfile:address withTimePoint:type])
 	return self;
 	else return nil;
 }
 
--(int)loadfile:(NSString *)address withTimePoint:(NSString *) type{
-	if(std) [std release];
-	if(xvalues) [xvalues release];
-	if(yvalues) [yvalues release];
-	
-	//	location = address;
-	//	timepoint = type;
-	
-	conversion = 1.f;
-	
+-(int)loadfile:(NSString *)address withTimePoint:(NSString *) type 
+{
 	BOOL firstlinelabel = NO;
-	
 	NSArray *lines = [[NSString stringWithContentsOfFile:address encoding:NSASCIIStringEncoding error:nil] componentsSeparatedByString:@"\n"];
 	NSArray *elements = [[lines objectAtIndex:0] componentsSeparatedByString:@"\t"];
 	int i, xcolumn = 999, ycolumn = 999, stdcolumn =999, maxcolumns = [elements count], firstline;
-	
-	
+
 	//check to make sure its a table
 	for(i=0;i< (int)[lines count];i++){
 		if (maxcolumns != (int)[[[lines objectAtIndex:i] componentsSeparatedByString:@"\t"] count]) {
@@ -57,70 +53,79 @@ using namespace KM;
 											   defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@""]; 
 			[myAlert runModal];
 			
-			
 			return 0; 
-			
 		}
 	}
-	
-	//automatically read column header for 
+	//automatically read column header for
 	for(i=0;i<maxcolumns;i++){
 		if ([[elements objectAtIndex:i] doubleValue]) {
 			break;
 		}
 		if([[elements objectAtIndex:i] isEqualToString:@"Time"]) {
-			xcolumn = i; firstlinelabel = YES;
+			xcolumn = i+1; firstlinelabel = YES;
 		}
 		if([[elements objectAtIndex:i] isEqualToString:@"Concentration"]) {
 			firstlinelabel = YES;
-			ycolumn = i;
+			ycolumn = i+1;
 		}
 		if([[elements objectAtIndex:i] isEqualToString:@"Standard Deviation"] && useWeights){
 			firstlinelabel = YES;
-			stdcolumn = i;
+			stdcolumn = i+1;
 		}
 		if([[elements objectAtIndex:i] isEqualToString:@"Input"] && inputfile) {
 			firstlinelabel = YES;
-			ycolumn = i;
+			ycolumn = i+1;
 		}
 		
 		if([[elements objectAtIndex:i] isEqualToString:@"Tissue"] && !inputfile) {
 			firstlinelabel = YES;
-			ycolumn = i;
+			ycolumn = i+1;
 		}
 	}
 	if(firstlinelabel) firstline = 1;
 	else  firstline = 0;
-	if(stdcolumn = 999 && useWeights)		stdcolumn = [[NSUserDefaults standardUserDefaults] integerForKey:@"KMStdColumn"]-1;
-	if(xcolumn = 999) 		xcolumn = [[NSUserDefaults standardUserDefaults] integerForKey:@"KMTimeColumn"]-1;
+	if(stdcolumn = 999 && useWeights)		stdcolumn = [[NSUserDefaults standardUserDefaults] integerForKey:@"KMStdColumn"];
+	if(xcolumn = 999) 		xcolumn = [[NSUserDefaults standardUserDefaults] integerForKey:@"KMTimeColumn"];
 	if(ycolumn = 999 && inputfile){
-		ycolumn = [[NSUserDefaults standardUserDefaults] integerForKey:@"KMInputColumn"]-1;
+		ycolumn = [[NSUserDefaults standardUserDefaults] integerForKey:@"KMInputColumn"];
 	}
 	else if (ycolumn = 999){
-		ycolumn = [[NSUserDefaults standardUserDefaults] integerForKey:@"KMTissueColumn"]-1;
+		ycolumn = [[NSUserDefaults standardUserDefaults] integerForKey:@"KMTissueColumn"];
 	}
 	
-	if (xcolumn > maxcolumns || ycolumn > maxcolumns || stdcolumn > maxcolumns) {
+	if (xcolumn > maxcolumns+1 || ycolumn > maxcolumns+1 || stdcolumn > maxcolumns+1) {
 		NSAlert *myAlert = [NSAlert alertWithMessageText:@"Defined columns out of bounds!"
 										   defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@""]; 
 		[myAlert runModal];
 		return 0;
 	}
+	[self loadfile:address withTimePoint:type:xcolumn:ycolumn:stdcolumn:firstline];
+	return 1;
+}
+
+-(int)loadfile:(NSString *)address withTimePoint:(NSString *) type:(int)xcolumn:(int)ycolumn:(int)stdcolumn:(BOOL)firstline{
+	//assuming the columns start at index 1, will offset
 	
-	else {
-		xvalues = [NSMutableArray array];
-		yvalues = [NSMutableArray array];
+	self.std = nil;
+	self.xvalues = nil;
+	self.yvalues = nil;
+	int i;
+	NSArray *lines = [[NSString stringWithContentsOfFile:address encoding:NSASCIIStringEncoding error:nil] componentsSeparatedByString:@"\n"];
+	conversion = 1.f;
+
+		self.xvalues = [NSMutableArray array];
+		self.yvalues = [NSMutableArray array];
 		if (useWeights) std     = [NSMutableArray array];
 		
  		for(i=firstline; i<(int)[lines count] - firstline; i++){
 			NSArray *currentline = [[lines objectAtIndex:i] componentsSeparatedByString:@"\t"];
 			[xvalues addObject:
-			 [NSNumber numberWithDouble:[[currentline objectAtIndex:xcolumn] doubleValue]]];
+			 [NSNumber numberWithDouble:[[currentline objectAtIndex:xcolumn-1] doubleValue]]];
 			[yvalues addObject:
-			 [NSNumber numberWithDouble:[[currentline objectAtIndex:ycolumn] doubleValue]]];
+			 [NSNumber numberWithDouble:[[currentline objectAtIndex:ycolumn-1] doubleValue]]];
 			if(useWeights){
 				[std	 addObject:
-				 [NSNumber numberWithDouble:[[currentline objectAtIndex:stdcolumn] doubleValue]]];}
+				 [NSNumber numberWithDouble:[[currentline objectAtIndex:stdcolumn-1] doubleValue]]];}
 		}
 		
 		for(i=1; i<(int)[xvalues count]; i++){ //time must be strictly increasing
@@ -137,20 +142,21 @@ using namespace KM;
 		[xvalues retain];
 		[yvalues retain];
 		if(useWeights) [std retain];
-	}
+	
 	
 	return 1;
 }
 
 -(void) dealloc {
 	if(inputfile) NSLog(@"InputData Dealloc");
-	else		  NSLog(@"TissueData Dealloc");
-	if(std)		[std     release];
-	if(xvalues) [xvalues release];
-	if(yvalues) [yvalues release];
-	if(location) [location release];
-	if(timepoint) [timepoint release];
-	
+	else		  NSLog(@"tissueData Dealloc");
+
+	self.inputfile=nil;
+	self.std = nil;
+	self.xvalues = nil;
+	self.yvalues = nil;
+	self.location = nil;
+	self.timepoint = nil;
 	[super dealloc];
 }
 
@@ -158,15 +164,7 @@ using namespace KM;
 #pragma mark -
 #pragma mark settors
 
--(void)setTimePoint:(NSString*)type{
-	timepoint = type;
-}
-
--(void)setUseWeights:(BOOL)flag{
-	useWeights = flag;
-}
-
--(void)setconversion:(double)conv{
+-(void)setConversion:(double)conv{
 	if(inputfile) return;
 	conversion = conv;
 }
@@ -174,26 +172,23 @@ using namespace KM;
 
 -(BOOL)setSTD:(NSArray*)weights{
 	if(xvalues.count == weights.count){
-		if(std) [std release];
-		std = [weights retain];
+		self.std = weights;
 		return TRUE;
 	}
 	return FALSE;
 }
+
 -(BOOL)setTimes:(NSArray*)timesarray values:(NSArray*)values withTimePoint:(NSString *)type{
 	if(timesarray.count == values.count && 
 	   ( [type isEqualToString:@"Start"] || [type isEqualToString:@"Mid"] || [type isEqualToString:@"End"])){
-		if(xvalues) [xvalues release];
-		if(yvalues) [yvalues release];
-		if(timepoint) [timepoint release];
 		
-		xvalues = [timesarray retain];
-		yvalues = [values retain];
-		timepoint = [type retain];
-		[self setconversion:1.f];
+		self.xvalues = [timesarray retain];
+		self.yvalues = [values retain];
+		self.timepoint = [type retain];
+		self.conversion = 1.f;
 		return TRUE;
 	}
-	return FALSE;	
+	return FALSE;
 }
 
 #pragma mark -
@@ -222,7 +217,6 @@ using namespace KM;
 
 -(NSArray*)allpoints {
 	
-	
 	NSMutableArray *values = [NSMutableArray array];
 	
 	for(int i=0; i<(int)[xvalues count]; i++){
@@ -241,10 +235,12 @@ using namespace KM;
 -(NSString*) fileName{
 	return location;
 }
--(vector)times{
+-(vector)times
+{
 	return [self changeArrayIntoVector:xvalues];
 }
--(vector)values{
+-(vector)values
+{
 	return (double)conversion*[self changeArrayIntoVector:yvalues];
 }
 -(vector)weights{
@@ -277,12 +273,12 @@ using namespace KM;
 			double previous = [[xvalues objectAtIndex:i-1] doubleValue];
 			[duration addObject:[NSNumber numberWithDouble:current-previous]];
 		}
+		
 		[duration addObject:[duration lastObject]];
 	}
 	
 	NSLog(@"Duration:%@",duration);
-	
-	
+
 	vector weights = vector(xvalues.count);
 	int x;
 	for(x=0;x<(int)std.count;++x){

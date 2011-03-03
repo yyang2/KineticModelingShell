@@ -16,7 +16,7 @@
 @synthesize Inputs;
 @synthesize Parameters;
 @synthesize ModelName;
-@synthesize TissueData;
+@synthesize tissueData;
 @synthesize conditions;
 
 -(void)encodeWithCoder:(NSCoder *)coder{
@@ -32,12 +32,12 @@
 	self = [super init];
 	
 	if (!self) return nil;
-	conditions		= [[coder decodeObjectForKey:@"Conditions"] retain];
-	Inputs			= [[coder decodeObjectForKey:@"Inputs"] retain];
-	Compartments	= [[coder decodeObjectForKey:@"Compartments"] retain];
+	self.tissueData     = nil;
+	self.conditions		= [coder decodeObjectForKey:@"Conditions"];
+	self.Inputs			= [coder decodeObjectForKey:@"Inputs"];
 	self.ModelName  = [coder decodeObjectForKey:@"ModelName"];
-	Parameters		= [[coder decodeObjectForKey:@"Parameters"] retain];
-	
+	self.Parameters		= [coder decodeObjectForKey:@"Parameters"];
+	Compartments	= [[coder decodeObjectForKey:@"Compartments"] retain];
 	return self;
 }
 
@@ -51,6 +51,7 @@
 	Inputs = [[NSMutableArray array] retain];
 	Compartments = [[NSMutableArray array] retain];
 	Parameters = [[NSMutableArray array] retain];
+	self.conditions = [[KMBasicRunningConditions alloc] init];
 	return self;
 }
 
@@ -156,13 +157,13 @@
 
 -(BOOL)validateModel{
 	
-	if(!TissueData || [Inputs count] < 1 || [Parameters count] < 1)
+	if(!tissueData || [Inputs count] < 1 || [Parameters count] < 1)
 		return NO;
 	
 	for(int k=0; k< [Inputs count]; k++)
 	{
 		KMCustomInput *cur = [Inputs objectAtIndex:k];
-		if([cur hasData]) return NO;
+		if(!cur.inputData) return NO;
 	}
 
 	return YES;
@@ -187,6 +188,7 @@
 			current.inputname = [NSString stringWithFormat:@"%@_a", current.inputname];
 		}
 	}
+	
 	[Inputs addObject:current];	
 	return YES;
 }
@@ -195,8 +197,9 @@
 {
 	for(int i=0; i<Inputs.count;i++){
 		if(current == [Inputs objectAtIndex:i]){
-			
+			current.destination.input = nil;
 			[Inputs removeObjectAtIndex:i];
+
 			return YES;
 		}
 	}

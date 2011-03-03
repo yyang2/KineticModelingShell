@@ -15,8 +15,8 @@
 @synthesize currentdata;
 @synthesize input;
 
--(void)awakeFromNib{
-
+-(void)awakeFromNib
+{
 	[InputTop selectItemWithTitle:[[NSUserDefaults standardUserDefaults] objectForKey:@"KMInputTop"]];
 	[InputBottom selectItemWithTitle:[[NSUserDefaults standardUserDefaults] objectForKey:@"KMInputBottom"]];
 	[InputColumnBox setIntValue:[[NSUserDefaults standardUserDefaults] integerForKey:@"KMInputColumn"]];
@@ -25,38 +25,44 @@
 }
 
 
--(id)initWithInput:(KMCustomInput*)k{
+-(id)initWithInput:(KMCustomInput*)k
+{
 	self = [super init];
 	if(!self) return nil;
 	
 	self.input = k;
 	
-	if([input hasData]){
-		self.currentdata = [input hasData];
+	if(input.inputData){
+		self.currentdata = input.inputData;
 	}
-	else currentdata = [KMData alloc];
-	
+	else{
+		currentdata = [KMData alloc];
+		currentdata.inputfile = TRUE;
+		currentdata.useWeights = FALSE;
+	}
 	[self initWithWindowNibName:@"CustomModelLoadInput"];
 	[self window];
-	
+	[Graph refreshDisplay:self];
 	return self;
 }
 
--(void)windowWillClose:(NSNotification *)notification{
+-(void)windowWillClose:(NSNotification *)notification
+{
+	NSLog(@"LoadInput Window Close");
 	self.release;
 }
 
 -(void) dealloc{
+	NSLog(@"LoadInput dealloc");
 	self.input = nil;
-	self.currentdata = nil;
+	currentdata.release;
 	[super dealloc];
 }
 
 -(IBAction)LoadFile:(id)sender{
 	
-	[[NSUserDefaults standardUserDefaults] setInteger: [InputColumnBox intValue] forKey:@"KMInputColumn"];
-	[[NSUserDefaults standardUserDefaults] setInteger:[TimeColumnBox intValue] forKey:@"KMTimeColumn"];
-
+//	[[NSUserDefaults standardUserDefaults] setInteger: [InputColumnBox intValue] forKey:@"KMInputColumn"];
+//	[[NSUserDefaults standardUserDefaults] setInteger:[TimeColumnBox intValue] forKey:@"KMTimeColumn"];
 	
 	NSOpenPanel *choosePanel = [NSOpenPanel openPanel];
 	[choosePanel setCanChooseDirectories:NO];
@@ -67,21 +73,21 @@
 	
 	if([choosePanel runModal] == NSOKButton)
 	{
-		if(![currentdata hasFile]){
-			[currentdata initWithFile:choosePanel.filename isInput:NO andTimePoint:[TimeSelection.selectedCell title] useWeights:NO];
-		}
-		else 
-			[currentdata loadfile:choosePanel.filename withTimePoint:[TimeSelection.selectedCell title]];
+		currentdata.location = choosePanel.filename;
+		[currentdata loadfile:choosePanel.filename withTimePoint:[TimeSelection.selectedCell title]:InputColumnBox.intValue:TimeColumnBox.intValue:-1:NO];
 	}
 
 	[Graph refreshDisplay:self];
 }
 
 -(IBAction)Okay:(id)sender{
+	[[NSUserDefaults standardUserDefaults] setInteger: [InputColumnBox intValue] forKey:@"KMInputColumn"];
+	[[NSUserDefaults standardUserDefaults] setInteger:[TimeColumnBox intValue] forKey:@"KMTimeColumn"];
 	
 	NSLog(@"Current Data:%@", currentdata);
 	if([currentdata hasFile]){
-		[input setData:currentdata];
+		input.inputData =currentdata;
+		[[self window] close];
 	}
 
 }

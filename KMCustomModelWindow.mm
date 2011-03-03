@@ -14,6 +14,7 @@
 #import "KMCustomInput.h"
 #import "KMCustomInputInterface.h"
 #import "KMCustomTissueInterface.h"
+#import "KMDataProcessor.h"
 
 @implementation KMCustomModelWindow
 
@@ -145,7 +146,7 @@
 	[check1 setEnabled:NO];
 	[check1 setTitle:@"Has Valid Data"];
 
-	if([input hasData]) [check1 setState:NSOnState];
+	if(input.inputData) [check1 setState:NSOnState];
 	else [check1 setState:NSOffState];
 
 }
@@ -340,11 +341,13 @@
 		input.rect = NSRectFromString([d objectForKey:restoreKey]);
 		
 		//SET Destination
+		input.destination.input = nil;
 		input.destination = nil;
 		for(int j =0; j<[[model allCompartments] count]; j++){
 			KMCustomCompartment *current = [[model allCompartments] objectAtIndex:j];
 			if(! NSEqualRects(NSIntersectionRect(current.rect, input.rect), NSMakeRect(0, 0, 0, 0)) ){
 				input.destination = current;
+				current.input = input;
 			}
 		}
 		
@@ -376,15 +379,36 @@
 	[view setNeedsDisplay:YES];
 }
 
--(IBAction)savePrefs:(id)sender{
-//	model.conditions 
-	[maxIt floatValue];
-	[minTol floatValue];
-	[totRuns intValue];
+-(IBAction)closePrefs:(id)sender{
+//	model.conditions
+
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:maxIt.intValue] forKey:@"CustomMaxIt"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:minTol.floatValue] forKey:@"CustomMinTol"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:totRuns.intValue] forKey:@"CustomTotRuns"];
+	
+	[prefPanel performClose:self];
+	[NSApp stopModal];
 }
 
--(IBAction)showPrefs:(id)sender{
-	
+-(IBAction)showPrefs:(id)sender
+{
+	if(![model validateModel]){
+		//throw errors
+		NSLog(@"Error, your model is incomplete");
+	}
+	else {
+		if(![[NSUserDefaults standardUserDefaults] objectForKey:@"CustomMaxIt"])
+		{
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:100] forKey:@"CustomMaxIt"];
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:.00001f] forKey:@"CustomMinTol"];
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:30] forKey:@"CustomTotRuns"];
+		}
+		
+		[maxIt setIntValue:[[[NSUserDefaults standardUserDefaults] objectForKey:@"CustomMaxIt"] intValue]];
+		[minTol setFloatValue:[[[NSUserDefaults standardUserDefaults] objectForKey:@"CustomMinTol"] floatValue]];
+		[totRuns setIntValue:[[[NSUserDefaults standardUserDefaults] objectForKey:@"CustomTotRuns"] intValue]];
+		[NSApp runModalForWindow:prefPanel];
+	}
 }
 -(void)removeElement:(id)obj{
 	if([[obj className] isEqualToString: @"KMCustomCompartment"]){
@@ -525,15 +549,16 @@
 }
 
 -(IBAction)runModel:(id)sender{
-	if(![model validateModel]){
-		//throw errors
-		NSLog(@"Error, your model is incomplete");
-	}
-	else {
-		
-		NSLog(@"Great!");
-	}
-
+	model.conditions = [[KMBasicRunningConditions alloc] init];
+	model.conditions.maxIterations =	maxIt.intValue;
+	model.conditions.tolerance	 =  minTol.floatValue;
+	model.conditions.TotalRuns	 =  totRuns.intValue;
+	
+	[self closePrefs:self];
+	NSLog(@"Great!");
+	
+	[[KMDataProcessor alloc] initWithModel:model Parameters:nil Inputs:nil andTissue:nil];	
+	
 }
 
 @end

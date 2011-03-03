@@ -9,7 +9,9 @@
 #import "KMResults.h"
 
 
+
 @implementation KMResults
+@synthesize ModelName;
 -(id)initWithCoder:(NSCoder *)aDecoder{
 	self = [super init];
 	if(!self) return nil;

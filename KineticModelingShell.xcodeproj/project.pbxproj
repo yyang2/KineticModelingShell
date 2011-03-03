@@ -261,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				27C52E5E1237AA7300808233 /* KMDataProcessor.mm */,
+				27C52E5D1237AA7300808233 /* KMDataProcessor.h */,
 				27C52E611237AA7300808233 /* KMResultDisplay.h */,
 				27C52E621237AA7300808233 /* KMResultDisplay.mm */,
 				27C52E591237AA7300808233 /* FDGParamUI.h */,
@@ -269,7 +270,6 @@
 				27C52E661237AA7300808233 /* LoadSingleInputManager.mm */,
 				256AC3D80F4B6AC300CF3369 /* KMShellAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* KMShellAppDelegate.mm */,
-				27C52E5D1237AA7300808233 /* KMDataProcessor.h */,
 			);
 			name = Others;
 			sourceTree = "<group>";

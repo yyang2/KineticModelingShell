@@ -25,7 +25,6 @@
 	IBOutlet NSButton		*check1, *loadData;
 	IBOutlet NSPanel		*prefPanel;
 	IBOutlet NSNumberFormatter *floatformatter;
-
 	KMCustomModel		*model;
 	NSDictionary		*selected;
 	NSUndoManager		*stack;
@@ -48,7 +47,7 @@
 -(void)changeCompartment:(NSDictionary*)d;
 -(void)removeElement:(id)obj;
 -(IBAction)propertyChange:(id)sender;
--(IBAction)savePrefs:(id)sender;
+-(IBAction)closePrefs:(id)sender;
 -(IBAction)showPrefs:(id)sender;
 -(IBAction)save:(id)sender;
 -(IBAction)load:(id)sender;

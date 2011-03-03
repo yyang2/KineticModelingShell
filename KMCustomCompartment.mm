@@ -7,7 +7,7 @@
 //
 
 #import "KMCustomCompartment.h"
-
+#import "KMCustomInput.h"
 
 @implementation KMCustomCompartment
 
@@ -16,6 +16,7 @@
 @synthesize compartmentname;
 @synthesize compartmenttype;
 @synthesize rect;
+@synthesize input;
 @synthesize isSelected;
 @synthesize upperleft;
 
@@ -24,6 +25,7 @@
 	self = [super init];
 	if(!self) return nil;
 	
+	self.input			 = [coder decodeObjectForKey:@"Input"];
 	self.compartmentname = [coder decodeObjectForKey:@"CompartmentName"];
 	self.compartmenttype = [coder decodeObjectForKey:@"CompartmentType"];
 	self.isTissue		 = [coder decodeBoolForKey:@"IsTissue"];
@@ -35,6 +37,7 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder{
+	[coder encodeObject:input			forKey:@"Input"];
 	[coder encodeObject:compartmentname forKey:@"CompartmentName"];
 	[coder encodeObject:compartmenttype forKey:@"CompartmentType"];
 	[coder encodeObject:NSStringFromRect(rect) forKey:@"Rect"];
@@ -72,11 +75,15 @@
 
 }
 
--(BOOL)isComplete{
+-(BOOL)isComplete
+{
 	return TRUE;
 }
 
 -(void)moveCompartment:(NSPoint) offset{
 	self.rect = NSOffsetRect(self.rect, offset.x, offset.y);
+	if(input != nil)
+		input.rect = NSOffsetRect(input.rect, offset.x, offset.y);
+	
 }
 @end

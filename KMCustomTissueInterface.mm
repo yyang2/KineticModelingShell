@@ -28,36 +28,38 @@
 -(id)initWithModel:(KMCustomModel*)m{
 	self = [super init];
 	if(!self) return nil;
-	
+
 	self.currentmodel = m;
 	
-	if(currentmodel.TissueData){
-		self.currentdata = currentmodel.TissueData;
+	if(currentmodel.tissueData){
+		self.currentdata = currentmodel.tissueData;
 	}
-	else currentdata = [KMData alloc];
-	
+	else {
+		currentdata = [KMData alloc];
+		currentdata.inputfile = NO;
+		currentdata.useWeights = NO;
+	}
 	[self initWithWindowNibName:@"CustomModelLoadTissue"];
 	[self window];
-
+	[Graph refreshDisplay:self];
 	return self;
 }
 
--(void)windowWillClose:(NSNotification *)notification{
+-(void)windowWillClose:(NSNotification *)notification
+{
+	NSLog(@"LoadTissue Closing Window");
 	self.release;
 }
 
 -(void) dealloc{
+	NSLog(@"LoadTissue deallocing");
 	self.currentmodel = nil;
 	self.currentdata = nil;
 	[super dealloc];
 }
 
--(IBAction)LoadFile:(id)sender{
-	
-	[[NSUserDefaults standardUserDefaults] setInteger: [InputColumnBox intValue] forKey:@"KMInputColumn"];
-	[[NSUserDefaults standardUserDefaults] setInteger:[TimeColumnBox intValue] forKey:@"KMTimeColumn"];
-	
-	
+-(IBAction)LoadFile:(id)sender
+{		
 	NSOpenPanel *choosePanel = [NSOpenPanel openPanel];
 	[choosePanel setCanChooseDirectories:NO];
 	[choosePanel setAllowsMultipleSelection:NO];
@@ -67,31 +69,30 @@
 	
 	if([choosePanel runModal] == NSOKButton)
 	{
-		if(![currentdata hasFile]){
-			[currentdata initWithFile:choosePanel.filename isInput:NO andTimePoint:[TimeSelection.selectedCell title] useWeights:NO];
-		}
-		else 
-			[currentdata loadfile:choosePanel.filename withTimePoint:[TimeSelection.selectedCell title]];
+		currentdata.location = choosePanel.filename;
+		[currentdata loadfile:choosePanel.filename withTimePoint:[TimeSelection.selectedCell title]:InputColumnBox.intValue:TimeColumnBox.intValue:-1:NO];
 	}
 	
 	[Graph refreshDisplay:self];
 }
 
 -(IBAction)Okay:(id)sender{
+	[[NSUserDefaults standardUserDefaults] setInteger: [InputColumnBox intValue] forKey:@"KMInputColumn"];
+	[[NSUserDefaults standardUserDefaults] setInteger:[TimeColumnBox intValue] forKey:@"KMTimeColumn"];
 	
 	NSLog(@"Current Data:%@", currentdata);
-	if([currentdata hasFile]){
-		currentmodel.TissueData = currentdata;
-	}
+
+	currentmodel.tissueData = currentdata;
+	[[self window] close];
 	
 }
 
 
--(IBAction)ChangeUnits:		(id)sender{
-	
+-(IBAction)ChangeUnits:		(id)sender
+{	
 	float conversion = ([self doubleforselection:TissueTop.selectedItem]/[self doubleforselection:TissueTop.selectedItem]);
 
-	[currentdata setconversion:conversion];
+	currentdata.conversion =conversion;
 	
 	[Graph refreshDisplay:self];
 }
@@ -173,13 +174,13 @@
 	
 	if (inAxis == kSM2DGraph_Axis_X) {
 		NSPoint something = [currentdata timerange];
-		NSLog(@"Max:%f", something.y);
+//		NSLog(@"Max:%f", something.y);
 		return something.y;
 	}
 	else if (inAxis == kSM2DGraph_Axis_Y) {
 		NSPoint something = [currentdata valuerange];
 		return something.y;
-		NSLog(@"Max:%f", something.y);
+//		NSLog(@"Max:%f", something.y);
 	}
 	
 	return 0;
@@ -193,13 +194,13 @@
 	if (inAxis == kSM2DGraph_Axis_X) {
 		NSPoint something = [currentdata timerange];
 		return something.x;
-		NSLog(@"Min:%f", something.x);
+//		NSLog(@"Min:%f", something.x);
 	}
 	else if (inAxis == kSM2DGraph_Axis_Y) {
 		NSPoint something = [currentdata valuerange];
 		return something.x;
 		
-		NSLog(@"Min:%f", something.x);
+		//NSLog(@"Min:%f", something.x);
 	}
 	return 0;
 }

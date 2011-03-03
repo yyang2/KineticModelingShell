@@ -22,7 +22,5 @@
 @property(retain) KMCustomCompartment * destination;
 @property NSRect rect;
 @property(retain) NSString *inputname;
-
--(KMData*)hasData;
--(BOOL)setData:(KMData*)d;
+@property (retain) KMData *inputData;
 @end

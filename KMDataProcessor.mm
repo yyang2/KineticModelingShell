@@ -17,64 +17,41 @@
 using namespace KM;
 
 
--(void) initWithModel: (id)model Parameters:(KMModelRunningConditions*)params Inputs:(NSArray *) arrayin andTissue: (KMData *)tiss {
+-(void) initWithModel: (id)model Parameters:(KMModelRunningConditions*)params Inputs:(NSArray *) arrayin andTissue: (KMData *)tiss
+{
 	self = [super init];
 	inputs = [arrayin retain];
 	tissue = [tiss retain];
 	m = [model retain];
 	parameters = [params retain];
 	
-	if([[m className] hasSuffix:@"Array"]){
+	if([[m className] hasSuffix:@"Array"])
+	{
 		//something
 	}
-	
-	
-	else if( [[m className] hasSuffix:@"String"]){
-		
+	else if( [[m className] hasSuffix:@"String"])
+	{
 		if(m == @"FDG") [self RunFDG];
 	}
-	
-	else if( [[m className] isEqualToString:@"KMCustomModel"]){
-		//do shit
+	else if( [[m className] isEqualToString:@"KMCustomModel"])
+	{
+		[self runCustomModel];
 	}
 	[self dealloc];
 }
 
-NSInteger sortParameter(id param1, id param2, id allCompartments){
-	int i,j;
-
-	for(i=0; i<[allCompartments count];i++)
-		if([param1 origin_comp] == [allCompartments objectAtIndex:i]) break;
-	
-	for(j=0; j<[ allCompartments count];j++)
-		if([param2 origin_comp] == [allCompartments objectAtIndex:j]) break;
-	
-	if(i<j) 
-		return (NSComparisonResult)NSOrderedAscending;
-	
-	else if(i>j) 
-		return (NSComparisonResult)NSOrderedDescending;
-	
-	else if(i==j){
-		for(i=0; i<[ allCompartments count];i++)
-			if([param1 destin_comp] == [allCompartments objectAtIndex:i]) break;
-
-		for(j=0; j<[ allCompartments count];j++)
-			if([param2 destin_comp] == [allCompartments objectAtIndex:j]) break;		
-		if(i<j) return (NSComparisonResult)NSOrderedAscending;
-		
-		else if(i>j) return (NSComparisonResult)NSOrderedDescending;
-	}
-	
-}
--(void)runCustomModel{
+-(void)runCustomModel
+{
+	KMCustomModel *customModel = m;
 	NSMutableArray *compList = [m allCompartments];
 	int compNumber = [compList count];
 	int i,j;
 	KMResults *results = [[[KMResults alloc] autorelease] initWithModelName:[m ModelName]];
 	
+	tissue = [customModel.tissueData retain];
 	
 	//set up parameters
+	NSLog(@"%@",[m Parameters]);
 	NSArray *sortedParameters = [[m Parameters] sortedArrayUsingComparator:^(id param1, id param2){
 		int i,j;
 		for(i=0; i<[compList count];i++)
@@ -90,36 +67,38 @@ NSInteger sortParameter(id param1, id param2, id allCompartments){
 			return (NSComparisonResult)NSOrderedDescending;
 		
 		else if(i==j){
-			for(i=0; i<[ compList count];i++)
+			for(i=0; i<[compList count];i++)
 				if([param1 destin_comp] == [compList objectAtIndex:i]) break;
-			
-			for(j=0; j<[ compList count];j++)
+			for(j=0; j<[compList count];j++)
 				if([param2 destin_comp] == [compList objectAtIndex:j]) break;		
-			if(i<j) return (NSComparisonResult)NSOrderedAscending;
 			
-			else if(i>j) return (NSComparisonResult)NSOrderedDescending;
-			else if(i==j) {
+			if(i<j) 
+				return (NSComparisonResult)NSOrderedAscending;
+			else if(i>j) 
+				return (NSComparisonResult)NSOrderedDescending;
+			else if(i==j) 
 				printf("Two Parameters have same origin and destination, major fail in KMDataProcessor");
-				return (NSComparisonResult)NSOrderedSame;
-			}
 		}
 		return (NSComparisonResult)NSOrderedSame;
 	}];
 	
-	bool	paramOpt[[sortedParameters count]+1];
-	double	paramStart[[sortedParameters count]+1];
-	double	paramLow[[sortedParameters count]+1];
-	double	paramHigh[[sortedParameters count]+1];
+	NSLog(@"SortedParameters:%@", sortedParameters);
+	bool	paramOpt[sortedParameters.count];
+	double	paramStart[sortedParameters.count];
+	double	paramLow[sortedParameters.count];
+	double	paramHigh[sortedParameters.count];
 	
-	for(i=0;i<[sortedParameters count]; i++){
-		paramStart[i] = [[sortedParameters objectAtIndex:i] initial];
-		paramOpt[i]   = [[sortedParameters objectAtIndex:i] optimize];
-		paramLow[i]   = [[sortedParameters objectAtIndex:i] lowerbound];
-		paramHigh[i]  = [[sortedParameters objectAtIndex:i] upperbound];
+	for(i=0;i<sortedParameters.count; i++){
+		KMCustomParameter *cur = [sortedParameters objectAtIndex:i];
+		paramStart[i] = cur.initial;
+		paramOpt[i]   = cur.optimize;
+		paramLow[i]   = cur.lowerbound;
+		paramHigh[i]  = cur.upperbound;
+		NSLog(@"initial:%g, low %g, high %g", paramStart[i], paramLow[i], paramHigh[i]);
 	}
 
 	
-	//setup compartments
+	//setup input vector
 	bool	input[compNumber];
 	bool	tiss[compNumber];
 	for(i=0;i<compNumber;i++){
@@ -129,25 +108,105 @@ NSInteger sortParameter(id param1, id param2, id allCompartments){
 			if ([[[m Inputs] objectAtIndex:j] destination] == [compList objectAtIndex:i])
 				input[i]=true;
 		}
- 	}
+	}
 	
-	
-	//set up adjacency matrix - aka map of connections
+						
+	//set up adjacency matrix - aka map of connections, default all false
 	bool adjMat[compNumber*compNumber];
 	for(i=0; i<compNumber*compNumber;i++)
 		adjMat[i]=false;
 
-	for(int k=0; k<[sortedParameters count]; k++){
+	
+	KM::matrix lb(compNumber, compNumber);
+	KM::matrix ub(compNumber, compNumber);
+	i=0;j=0;
+	for(int k=0; k<sortedParameters.count; k++){
 		KMCustomParameter *cur = [sortedParameters objectAtIndex:k];
-		for(i=0; i< compNumber;i++)
-			if([compList objectAtIndex:i] == [cur origin_comp]) break;
-		for(j=0; j< compNumber;j++)
-			if([compList objectAtIndex:j] == [cur destin_comp]) break;
-		adjMat[i*compNumber+j] = true;
+		//loop through parameters to set adjMat to true		
+		//optimized since compList is already sorted
+		for(; i< compNumber;i++)
+			if([compList objectAtIndex:i] == [cur origin_comp]) {
+				for(; j< compNumber;j++)
+				{
+					if([compList objectAtIndex:j] == [cur destin_comp]) 
+					{
+						adjMat[i*compNumber+j] = true;
+						lb(i,j)=paramLow[k];
+						ub(i,j)=paramHigh[k];
+					}
+					else lb(i,j)=-1.f; 
+				}
+			}
 	}
 
-  GenericGraphModel* model = new GenericGraphModel( compNumber, adjMat, input, tiss );
+
+	GenericGraphModel* model = new GenericGraphModel( compNumber, adjMat, input, tiss );
 	
+	KMData *inp = [[[m Inputs] objectAtIndex:0] inputData];
+	
+	model->add_input([inp times], [inp values]);
+	
+	
+	
+	ModelFitter::Target target;
+	KM::ModelFitter fitter;
+	
+	fitter.max_iterations = customModel.conditions.maxIterations;
+	target.ttac.copy( [tissue values]);		
+	target.ttac_times.copy( [tissue times] );
+	
+	target.weights.copy( [tissue weights] );
+	vector weight = [tissue weights];
+	
+//	NSLog(@"Weights:%@", [self changeVectorIntoArray:tissue.weights]);
+
+	ModelFitter::Options options( sortedParameters.count );
+    memcpy( options.parameters_to_optimize, paramOpt, 
+		   sizeof( paramOpt ) );
+	
+	fitter.verbose = true;
+    fitter.absolute_step_threshold = 0;
+    fitter.relative_step_threshold = customModel.conditions.tolerance;
+	NSLog(@"Conditions:%@", customModel.conditions);
+	
+	for (int k=0; k< (unsigned int)customModel.conditions.TotalRuns; k++){
+		
+		KM::matrix cc(compNumber, compNumber);
+		KM::vector volume(1);
+		volume[0] = 0.05;
+		
+		
+		for (i = 0; i < compNumber; i++) {
+			for(j = 0; j <compNumber; j++) {
+				if(lb(i,j)>=0 && i!=j){
+					cc(i,j) = ((double)rand()/(double)RAND_MAX)*(ub(i,j)-lb(i,j)) + lb(i,j);
+					NSLog(@"object at %i,%i, %f",i,j, cc(i,j));
+
+				}
+			}
+		}
+		
+		vector init_param = model->parameter_vector( cc, volume );
+		
+		NSMutableDictionary *currentiteration = [NSMutableDictionary dictionary];
+		
+		ModelFitter::Result* result = fitter.fit_model_to_tissue_curve( model, &target, init_param, &options );
+		
+		
+		for(i=0; i<result->parameters.size(); i++) {
+			[currentiteration setObject:[NSNumber numberWithDouble:result->parameters[i]] forKey:[[sortedParameters objectAtIndex:i] paramname]];
+		}
+		[currentiteration setObject:[NSNumber numberWithDouble:result->wrss] forKey:@"WRSS"];
+		vector yvalues = result->func_value;
+		NSLog(@"YValues: %@",[self changeVectorIntoArray:yvalues]);
+		[currentiteration setObject:[self changeVectorIntoArray:yvalues] forKey:@"YValues"];
+		[currentiteration setObject:[self changeVectorIntoArray:tissue.times] forKey:@"XValues"];
+		[results addResult:currentiteration];
+	}
+	
+	[results orderListBy:@"WRSS"];
+	NSLog(@"Results:%@", results);
+	[[KMResultDisplay alloc] initWithResults:results];
 	
 }
 -(void)RunFDG

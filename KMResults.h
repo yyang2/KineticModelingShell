@@ -22,6 +22,7 @@
 	//"Param Name"	- Fitted Value 
 }
 
+@property (retain) NSString *ModelName;
 -(BOOL)addResult:(NSMutableDictionary *)entry;
 -(BOOL)deleteResult:(int)index;
 -(int)totalCount;

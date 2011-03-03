@@ -18,11 +18,11 @@
 @interface KMCustomModel : NSObject  <NSCoding> {
 	NSMutableArray	*Inputs, *Compartments, *Parameters;
 	NSString		*ModelName;
-	KMData		*TissueData;
+	KMData		*tissueData;
 	KMBasicRunningConditions *conditions;
 }
 @property (retain) KMBasicRunningConditions *conditions;
-@property (retain) KMData   *TissueData;
+@property (retain) KMData   *tissueData;
 @property (retain) NSString	*ModelName;
 @property (retain) NSMutableArray *Parameters;
 @property (retain) NSMutableArray *Inputs;

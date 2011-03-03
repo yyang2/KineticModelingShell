@@ -315,16 +315,23 @@ NSString* const KMCompartmentDrawing	= @"KMDrawing";
 
 	if( c == NSDeleteFunctionKey || c == NSDeleteCharacter || c == NSBackspaceCharacter || c == NSDeleteCharFunctionKey)
 	{
-		if(!selected) return;
-		else if([selected objectForKey:@"KMCustomParameter"]){
+		if(!selected) 
+			return;
+		else if([selected objectForKey:@"KMCustomParameter"])
+		{
 			[controller removeElement:[selected objectForKey:@"KMCustomParameter"]];
 			NSLog(@"Deleting Parameter");
 		}
-		else if([selected objectForKey:@"KMCustomCompartment"]){
+		else if([selected objectForKey:@"KMCustomCompartment"])
+		{
 			[controller removeElement:[selected objectForKey:@"KMCustomCompartment"]];
 			NSLog(@"Deleting Compartment");
 		}
-
+		else if([selected objectForKey:@"KMCustomInput"])
+		{
+			[controller removeElement:[selected objectForKey:@"KMCustomInput"]];
+			NSLog(@"Deleting Input");
+		}
 		self.selected = nil;
 		[controller setSelected:nil];
 		
@@ -358,7 +365,8 @@ NSString* const KMCompartmentDrawing	= @"KMDrawing";
 	//	NSLog(@"Selected:%@",selected);
 	[controller changeSelected:selected];
 
-	if(selected != previous) { //update selection state
+	if(selected != previous) 
+	{ //update selection state
 		[[previous.allValues lastObject] setIsSelected:NO];
 		[[selected.allValues lastObject] setIsSelected:YES];
 		[self setNeedsDisplay:YES];	
@@ -405,7 +413,9 @@ NSString* const KMCompartmentDrawing	= @"KMDrawing";
 			if(selectedComp == newCompartment) return;
 			else if(selectedComp.rect.size.width+theEvent.deltaX<KM_MIN_WIDTH) return;
 			newrect=NSMakeRect(selectedComp.rect.origin.x, selectedComp.rect.origin.y,
-							   selectedComp.rect.size.width+theEvent.deltaX, selectedComp.rect.size.height);
+							   selectedComp.rect.size.width+theEvent.deltaX, selectedComp.rect.size.height);			
+			if([self willCollide:newrect]) return;// collision detection
+			selectedComp.rect = newrect;
 		}
 		else if(self.state == KMCompartmentResizingY){
 			NSLog(@"ResizingY");
@@ -414,15 +424,17 @@ NSString* const KMCompartmentDrawing	= @"KMDrawing";
 			
 			newrect=NSMakeRect(selectedComp.rect.origin.x, selectedComp.rect.origin.y-theEvent.deltaY,
 							   selectedComp.rect.size.width, selectedComp.rect.size.height+theEvent.deltaY);
+			if([self willCollide:newrect]) return;// collision detection
+			selectedComp.rect = newrect;
 		}
 		else if(self.state == KMCompartmentMoving){
 			newrect=NSMakeRect(selectedComp.rect.origin.x+theEvent.deltaX, selectedComp.rect.origin.y-theEvent.deltaY,
 							   selectedComp.rect.size.width, selectedComp.rect.size.height);
+			if([self willCollide:newrect]) return;// collision detection
+			
+			[selectedComp moveCompartment:NSMakePoint(theEvent.deltaX, -theEvent.deltaY)];
 		}
-		
-		
-		if([self willCollide:newrect]) return;// collision detection
-		selectedComp.rect = newrect;
+			 
 		[self setNeedsDisplay:YES];
 	}
 	

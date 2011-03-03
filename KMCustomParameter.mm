@@ -16,7 +16,7 @@
 @synthesize isSelected;
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
-	self = [super init]; if(!self) return nil;
+	self = [super initWithCoder:aDecoder]; if(!self) return nil;
 	self.origin_comp = [aDecoder decodeObjectForKey:@"OriginComp"];
 	self.destin_comp = [aDecoder decodeObjectForKey:@"DestinComp"];
 	self.originpt =	NSPointFromString([aDecoder decodeObjectForKey:@"OriginPt"]);
@@ -26,6 +26,7 @@
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder{
+	[super encodeWithCoder:aCoder];
 	[aCoder encodeObject:origin_comp forKey:@"OriginComp"];
 	[aCoder encodeObject:destin_comp forKey:@"DestinComp"];
 	[aCoder encodeObject:NSStringFromPoint(originpt) forKey:@"OriginPt"];
@@ -43,6 +44,10 @@
 	
 	self.paramname = [NSString stringWithFormat:@"%@-%@", origin_comp.compartmentname, destin_comp.compartmentname];
 
+	self.initial = 0.1f;
+	self.lowerbound = 0.f;
+	self.upperbound = 1.f;
+	self.optimize   = YES;
 	return self;
 }
 
@@ -102,5 +107,8 @@
 	
 	return aPath;
 	
+}
+-(NSString*)description {
+	return [NSString stringWithFormat:@"%@, original compartment:%@ destination compartment: %@\n start:%f, low:%f, high:%f", paramname, origin_comp.compartmentname, destin_comp.compartmentname, initial, lowerbound, upperbound];
 }
 @end

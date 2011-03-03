@@ -9,20 +9,21 @@
 #import "KMCustomInput.h"
 #import "KMData.h"
 #import "KMCustomCompartment.h"
+
 @implementation KMCustomInput
 @synthesize inputname;
 @synthesize rect;
 @synthesize destination;
 @synthesize isSelected;
-
+@synthesize inputData;
 -(id)initWithCoder:(NSCoder *)aDecoder{
 	self = [super init];
 	if(!self) return nil;
 	
-	// do not save loaded data!
-	inputname	 = [aDecoder decodeObjectForKey:@"Name"];
-	destination  = [aDecoder decodeObjectForKey:@"Destination"];
-	rect		 = NSRectFromString([aDecoder decodeObjectForKey:@"Rect"]);
+	//do not save loaded data!
+	self.inputname	 = [aDecoder decodeObjectForKey:@"Name"];
+	self.destination  = [aDecoder decodeObjectForKey:@"Destination"];
+	self.rect		 = NSRectFromString([aDecoder decodeObjectForKey:@"Rect"]);
 	isSelected	 = FALSE;
 	return self;
 }
@@ -35,36 +36,25 @@
 		return YES;
 }
 
--(BOOL)setData:(KMData*)d
-{
-	if(inputData) [inputData release];
-	inputData = [d retain];
-	return YES;
-}
 
 -(id)initWithName:(NSString*)name
 {
 	self = [super init];
 	if(!self) return nil;
 	
-	inputname	 = [name retain];
+	self.inputname	 = name;
 	destination  = nil;
 	rect		 = NSMakeRect(0, 0, 1, 1);
 	isSelected   = FALSE;
 	return self;
 }
 
--(KMData*)hasData{
-	if(inputData) return inputData;
-	
-	else return nil;
-}
-
 -(void) dealloc
 {
-	[inputname release];
-	if(inputData) [inputData release];
-	if(destination) [destination release];
+	self.inputname =nil;
+	self.inputData = nil;
+	self.destination = nil;
+	self.inputData = nil;
 	[super dealloc];
 }
 

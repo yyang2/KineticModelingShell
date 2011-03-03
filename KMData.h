@@ -22,7 +22,9 @@ using namespace KM;
 }
 
 @property BOOL useWeights, inputfile;
-
+@property double conversion, timeconversion;
+@property (retain) NSString *location, *timepoint;
+@property (retain) NSMutableArray *xvalues, *yvalues, *std;
 -(vector)changeArrayIntoVector:(NSMutableArray *)target;
 -(vector)values;
 -(vector)times;
@@ -35,11 +37,10 @@ using namespace KM;
 -(BOOL)setTimes:(NSArray*)timesarray values:(NSArray*)values withTimePoint:(NSString *)type;
 -(BOOL)setSTD:(NSArray*)weights;
 -(NSString*)fileName;
--(void)setconversion:(double)conv;
 -(int)loadfile:(NSString *)address withTimePoint:(NSString *) type;
+-(int)loadfile:(NSString *)address withTimePoint:(NSString *) type:(int)xcolumn:(int)ycolumn:(int)stdcolumn:(BOOL)firstline;
 -(NSPoint)timerange;
 -(NSPoint)valuerange;
 -(NSArray*)allpoints;
--(void)setTimePoint:(NSString*)type;
 
 @end
