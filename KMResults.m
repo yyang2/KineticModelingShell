@@ -47,12 +47,18 @@
 -(BOOL)addResult:(NSMutableDictionary *)entry{
 	
 	//validate the entry before adding
-	if(![[[entry objectForKey:@"YValues"] className] isEqualToString:@"NSMutableArray"] ||
-	![[[entry objectForKey:@"XValues"] className] isEqualToString:@"NSMutableArray"] ||
-	   ![entry objectForKey:@"WRSS"] || 
-	   ![entry objectForKey:@"VB"]) 
-		return NO;
+	NSLog(@"YValues Classname:%@",[[entry objectForKey:@"YValues"] className]);
+	NSLog(@"XValues Classname:%@",[[entry objectForKey:@"XValues"] className]);
+	NSLog(@"WRSS %@",[entry objectForKey:@"WRSS"]);
+	NSLog(@"VB %@",[entry objectForKey:@"VB"]);
 	
+	if(![entry objectForKey:@"YValues"]  || ![entry objectForKey:@"XValues"] || ![entry objectForKey:@"WRSS"] || 
+	   ![entry objectForKey:@"VB"]) 
+	{
+		NSLog(@"Invalid result, must have X,Y values, WRSS and VB!");
+		return NO;
+		
+	}
 	
 	
 	[entry retain];

@@ -52,7 +52,8 @@
 	self.release;
 }
 
--(void) dealloc{
+-(void) dealloc
+{
 	NSLog(@"LoadTissue deallocing");
 	self.currentmodel = nil;
 	self.currentdata = nil;
@@ -65,8 +66,8 @@
 	[choosePanel setCanChooseDirectories:NO];
 	[choosePanel setAllowsMultipleSelection:NO];
 	[choosePanel setCanChooseFiles:YES];
-	[choosePanel setTitle:NSLocalizedString(@"Input File", nil)];
-	[choosePanel setMessage:NSLocalizedString(@"Choose Saved Input File Data", nil)];
+	[choosePanel setTitle:NSLocalizedString(@"Tissue File", nil)];
+	[choosePanel setMessage:NSLocalizedString(@"Choose Saved Tissue File Data", nil)];
 	
 	if([choosePanel runModal] == NSOKButton)
 	{

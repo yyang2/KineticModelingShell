@@ -164,10 +164,6 @@ using namespace KM;
 #pragma mark -
 #pragma mark settors
 
--(void)setConversion:(double)conv{
-	if(inputfile) return;
-	conversion = conv;
-}
 
 
 -(BOOL)setSTD:(NSArray*)weights{

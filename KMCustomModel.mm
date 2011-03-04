@@ -177,11 +177,13 @@
 	return nil;
 }
 
--(NSMutableArray*)allCompartments{
+-(NSMutableArray*)allCompartments
+{
 	return Compartments;
 }
 
--(BOOL)addInput:(KMCustomInput*)current{
+-(BOOL)addInput:(KMCustomInput*)current
+{
 	for(int i=0; i<Inputs.count;i++){
 		KMCustomInput *current = [Inputs objectAtIndex:i];
 		if([current.inputname isEqualToString: [[Inputs objectAtIndex:i] inputname]]){

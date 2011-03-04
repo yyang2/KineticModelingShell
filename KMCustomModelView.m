@@ -489,7 +489,7 @@ NSString* const KMCompartmentDrawing	= @"KMDrawing";
 				newInput.isSelected=NO;
 				
 				[controller addElement: newInput];
-				[controller changeInput:[NSDictionary dictionaryWithObjectsAndKeys:newInput, @"KMCustomInput", NSStringFromRect(newInput.rect), @"Rect", nil]];
+				[controller changeInput:[NSDictionary dictionaryWithObjectsAndKeys:newInput, @"Input", NSStringFromRect(newInput.rect), @"Rect", nil]];
 				self.newInput = self.replaceInput;
 				self.selected=nil;
 			}	
@@ -499,7 +499,7 @@ NSString* const KMCompartmentDrawing	= @"KMDrawing";
 				// do nothing!
 			}
 			else {
-				[controller changeInput:[NSDictionary dictionaryWithObjectsAndKeys:selectedInput, @"KMCustomInput",
+				[controller changeInput:[NSDictionary dictionaryWithObjectsAndKeys:selectedInput, @"Input",
 												   NSStringFromRect(selectedInput.rect), @"Rect", nil]];
 			}
 		}

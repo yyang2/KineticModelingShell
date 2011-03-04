@@ -11,7 +11,7 @@
 #import "KMCustomParameter.h"
 #import "KMCustomCompartment.h"
 #import "KMCustomInput.h"
-
+#import "model.hpp"
 
 @implementation KMDataProcessor
 using namespace KM;
@@ -51,7 +51,6 @@ using namespace KM;
 	tissue = [customModel.tissueData retain];
 	
 	//set up parameters
-	NSLog(@"%@",[m Parameters]);
 	NSArray *sortedParameters = [[m Parameters] sortedArrayUsingComparator:^(id param1, id param2){
 		int i,j;
 		for(i=0; i<[compList count];i++)
@@ -82,7 +81,6 @@ using namespace KM;
 		return (NSComparisonResult)NSOrderedSame;
 	}];
 	
-	NSLog(@"SortedParameters:%@", sortedParameters);
 	bool	paramOpt[sortedParameters.count+1];
 	double	paramStart[sortedParameters.count+1];
 	double	paramLow[sortedParameters.count+1];
@@ -94,39 +92,36 @@ using namespace KM;
 		paramOpt[i]   = cur.optimize;
 		paramLow[i]   = cur.lowerbound;
 		paramHigh[i]  = cur.upperbound;
-		NSLog(@"initial:%g, low %g, high %g", paramStart[i], paramLow[i], paramHigh[i]);
 	}
-
-	paramLow[sortedParameters.count] = 0.f;
-	paramHigh[sortedParameters.count] = 1.f;
-	paramOpt[sortedParameters.count]=NO;
-	paramStart[sortedParameters.count]=.05;
-	//setup input vector
+	paramOpt[sortedParameters.count]=YES;
+	paramLow[sortedParameters.count]=0;
+	paramHigh[sortedParameters.count]=.5;
+	paramStart[sortedParameters.count]=.1;
+	//setup input and tissue vector
+	
 	bool	input[compNumber];
 	bool	tiss[compNumber];
 	for(i=0;i<compNumber;i++){
-		tiss[i] = [[compList objectAtIndex:i] isTissue];
+		tiss[i] = (bool)[[compList objectAtIndex:i] isTissue];
 		input[i] = false;
 		for(j=0; j<[[m Inputs] count]; j++){
 			if ([[[m Inputs] objectAtIndex:j] destination] == [compList objectAtIndex:i])
+				
 				input[i]=true;
 		}
 	}
+	NSLog(@"Inputs");
+	for(i=0; i<compNumber; i++)
+		NSLog(@"%@, input: %i, tissue: %i", [[compList objectAtIndex:i] compartmentname] ,input[i], tiss[i]);
 	
-						
+	
 	//set up adjacency matrix - aka map of connections, default all false
 	bool adjMat[compNumber*compNumber];
 	for(i=0; i<compNumber*compNumber;i++)
 		adjMat[i]=false;
-
-	
-	KM::matrix lb(compNumber, compNumber);
-	KM::matrix ub(compNumber, compNumber);
-	i=0;j=0;
 	
 	for(int k=0; k<sortedParameters.count; k++){
 		KMCustomParameter *cur = [sortedParameters objectAtIndex:k];
-		NSLog(@"Current parameter:%@", cur.paramname);
 		//loop through parameters to set adjMat to true		
 		//optimized since compList is already sorted
 		for(i=0; i< compNumber;i++)
@@ -136,15 +131,12 @@ using namespace KM;
 					if([compList objectAtIndex:j] == [cur destin_comp]) 
 					{
 						adjMat[i*compNumber+j] = true;
-						lb(i,j)=paramLow[k];
-						ub(i,j)=paramHigh[k];
-						NSLog(@"%i,%i:%@ %f-%f",i,j, cur.paramname, lb(i,j), ub(i,j));
+						NSLog(@"%i,%i:%@ %f-%f",i,j, cur.paramname, paramLow[k], paramHigh[k]);
+					}
+					else {
+						
+					}
 
-					}
-					else 
-					{
-						ub(i,j)=-1.f;
-					}
 				}
 			}
 	}
@@ -152,12 +144,17 @@ using namespace KM;
 
 	GenericGraphModel* model = new GenericGraphModel( compNumber, adjMat, input, tiss );
 	
+	NSLog(@"Current Model inputs, %i, connections:%i, num params%i", model->inputs(), model->num_connections(), model->num_parameters());
+	
 	KMData *inp = [[[m Inputs] objectAtIndex:0] inputData];
+	vector times = [inp times];
+	vector values = [inp values];
+	
+	
 	
 	model->add_input([inp times], [inp values]);
-	
-	
-	
+	NSLog(@"input added? %i", model->inputs());
+
 	ModelFitter::Target target;
 	KM::ModelFitter fitter;
 	
@@ -166,7 +163,6 @@ using namespace KM;
 	target.ttac_times.copy( [tissue times] );
 	
 	target.weights.copy( [tissue weights] );
-	vector weight = [tissue weights];
 	
 //	NSLog(@"Weights:%@", [self changeVectorIntoArray:tissue.weights]);
 
@@ -177,23 +173,34 @@ using namespace KM;
 	fitter.verbose = true;
     fitter.absolute_step_threshold = 0;
     fitter.relative_step_threshold = customModel.conditions.tolerance;
-	NSLog(@"Conditions:%@", customModel.conditions);
+//	NSLog(@"Conditions:%@", customModel.conditions);
+	
+	NSLog(@"Current Model inputs, %i, connections:%i, num params%i", model->inputs(), model->num_connections(), model->num_parameters());
 	
 	for (int k=0; k< (unsigned int)customModel.conditions.TotalRuns; k++){
 		
+		
 		KM::matrix cc(compNumber, compNumber);
 		KM::vector volume(1);
-		volume[0] = .3;
+		volume[0] = 0.1;
 		
-		
-		for (i = 0; i < compNumber; i++) {
-			for(j = 0; j <compNumber; j++) {
-				NSLog(@"object at %i,%i, lb: %f ub: %f %f",i,j, lb(i,j), ub(i,j), cc(i,j));
-				if(lb(i,j) < ub(i,j)){
-					cc(i,j) = ((double)rand()/(double)RAND_MAX)*(ub(i,j)-lb(i,j)) + lb(i,j);
-					NSLog(@"yes!");
+
+		for(int k=0; k<sortedParameters.count; k++){
+			KMCustomParameter *cur = [sortedParameters objectAtIndex:k];
+			NSLog(@"Current parameter:%@", cur.paramname);
+			//loop through parameters to set adjMat to true		
+			//optimized since compList is already sorted
+			for(i=0; i< compNumber;i++)
+				if([compList objectAtIndex:i] == [cur origin_comp]) {
+					for(j=0; j< compNumber;j++)
+					{
+						if([compList objectAtIndex:j] == [cur destin_comp]) 
+						{
+							NSLog(@"Location:%i,%i",i,j);
+							cc(i,j) = ((double)rand()/(double)RAND_MAX)*(paramHigh[k]-paramLow[k]) + paramLow[k];						
+						}
+					}
 				}
-			}
 		}
 		
 		vector init_param = model->parameter_vector( cc, volume );
@@ -203,9 +210,12 @@ using namespace KM;
 		ModelFitter::Result* result = fitter.fit_model_to_tissue_curve( model, &target, init_param, &options );
 		
 		
-		for(i=0; i<result->parameters.size(); i++) {
+		for(i=0; i<result->parameters.size()-1; i++) {
+			NSLog(@"parameter %i: %g",i,result->parameters[i]);
 			[currentiteration setObject:[NSNumber numberWithDouble:result->parameters[i]] forKey:[[sortedParameters objectAtIndex:i] paramname]];
 		}
+		NSLog(@"parameter %i: %g",i,result->parameters[i]);
+		[currentiteration setObject:[NSNumber numberWithDouble:result->parameters[i]] forKey:@"VB"];
 		
 		NSLog(@"Size:%i",result->parameters.size());
 		[currentiteration setObject:[NSNumber numberWithDouble:result->wrss] forKey:@"WRSS"];
@@ -213,6 +223,7 @@ using namespace KM;
 		NSLog(@"YValues: %@",[self changeVectorIntoArray:yvalues]);
 		[currentiteration setObject:[self changeVectorIntoArray:yvalues] forKey:@"YValues"];
 		[currentiteration setObject:[self changeVectorIntoArray:tissue.times] forKey:@"XValues"];
+		NSLog(@"Current iteration:%@", currentiteration);
 		[results addResult:currentiteration];
 	}
 	
@@ -232,7 +243,7 @@ using namespace KM;
 	
 	ModelFitter fitter;
 	
-	fitter.verbose=FALSE;
+	fitter.verbose=TRUE;
 	
 	fitter.max_iterations = (double)parameters.maxIterations;
 	if(!fitter.max_iterations) fitter.max_iterations=100;
@@ -245,7 +256,7 @@ using namespace KM;
 	target.weights.copy( [tissue weights] );
 	vector weight = [tissue weights];
 	
-	NSLog(@"Weights:%@", [self changeVectorIntoArray:tissue.weights]);
+//	NSLog(@"Weights:%@", [self changeVectorIntoArray:tissue.weights]);
 	
 	ModelFitter::Options options( 6 );
 	options.lower_bounds.copy([self changeArrayIntoVector:parameters.lowerbounds]);

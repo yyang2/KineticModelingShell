@@ -110,7 +110,7 @@
 		([self doubleforselection:SpecificActivityTop.selectedItem]/[self doubleforselection:SpecificActivityBottom.selectedItem]);
 	}
 	
-	if([currentdata hasFile] && [SpecificActivityBox floatValue] != 0.f) [currentdata setconversion:conversion];
+	if([currentdata hasFile] && [SpecificActivityBox floatValue] != 0.f) currentdata.conversion=conversion;
 
 	[Graph refreshDisplay:self];
 }

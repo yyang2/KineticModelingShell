@@ -173,7 +173,7 @@
 	}
 	
 	if([Tissue hasFile]){
-		[Tissue setconversion:conversion];
+		Tissue.conversion=conversion;
 	}
 	
 }

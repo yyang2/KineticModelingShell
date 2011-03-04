@@ -57,7 +57,7 @@
 -(id)initWithResults:(KMResults *)passedin
 {
 	self = [super init];
-	source = passedin;
+	self.source = passedin;
 	[self initWithWindowNibName:@"DisplayResults"];
 	[self window];
 	[[self window] makeKeyAndOrderFront:self];
@@ -76,7 +76,7 @@
 	
 	NSLog(@"Results Display Window Dealloc");
 
-	source = nil;
+	self.source = nil;
 	[super dealloc];
 	
 }

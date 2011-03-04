@@ -140,6 +140,8 @@
 	[box1 setStringValue:input.inputname];
 	[des1 setStringValue:@"Name"];
 	
+	NSLog(@"destination compartment for selected input:%@", input.destination.compartmentname);
+	
 	[box2 setStringValue:[NSString stringWithFormat:@"%f", input.upperbound]];
 	[des2 setStringValue:@"Input Upperbound"];
 	
@@ -363,8 +365,8 @@
 		input.rect = NSRectFromString([d objectForKey:restoreKey]);
 		
 		//SET Destination
-		input.destination.input = nil;
-		input.destination = nil;
+//		input.destination.input = nil;
+//		input.destination = nil;
 		for(int j =0; j<[[model allCompartments] count]; j++){
 			KMCustomCompartment *current = [[model allCompartments] objectAtIndex:j];
 			if(! NSEqualRects(NSIntersectionRect(current.rect, input.rect), NSMakeRect(0, 0, 0, 0)) ){
