@@ -177,6 +177,8 @@ using namespace KM;
 	
 	NSLog(@"Current Model inputs, %i, connections:%i, num params%i", model->inputs(), model->num_connections(), model->num_parameters());
 	
+	srand ( time(NULL) );
+	
 	for (int k=0; k< (unsigned int)customModel.conditions.TotalRuns; k++){
 		
 		
@@ -276,7 +278,7 @@ using namespace KM;
 	}
 	
 	options.parameters_to_optimize[5] = FALSE;	ip[5] = (double)0.f;
-	srand ( time(NULL) );
+	
 	
 	for(int k=0; k<parameters.TotalRuns; ++k){
 		

@@ -86,16 +86,21 @@
 -(IBAction)OpenPrefPanel:	(id)sender{
 	//Open Panel
 	if(ModelName == @"FDG"){
-		if(!modelparamsUI){
+		if(modelparamsUI == nil){
 			modelparamsUI = [FDGParamUI alloc];
 			[modelparamsUI initWithWindowNibName:@"FDGParameters"];
-			[modelparamsUI initWithParameter:parameters];
+			[modelparamsUI initWithParameter:parameters :self];
 			[modelparamsUI window];
 		}
 		[[modelparamsUI window] makeKeyAndOrderFront:self];
 	}
 }
 
+-(void) closeParamWindow 
+{
+	//releasing pointer
+	modelparamsUI = nil;
+}
 #pragma mark -
 #pragma mark Buttons
 

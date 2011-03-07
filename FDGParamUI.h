@@ -8,10 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import "KMModelRunningConditions.h"
-
+@class LoadSingleInputManager;
 //This is the UI for running three-compartment FDG model
 
 @interface FDGParamUI : NSWindowController {
+	LoadSingleInputManager		*controllerWindow;
 	KMModelRunningConditions				*parameters;
 	IBOutlet NSTextField		*upperk1, *upperk2, *upperk3, *upperk4, *upperk5,
 								*lowerk1, *lowerk2, *lowerk3, *lowerk4, *lowerk5,
@@ -21,7 +22,7 @@
 								*uballones, *lballzeros, *randall;
 }
 
--(id)initWithParameter:(KMModelRunningConditions*) k;
+-(id)initWithParameter:(KMModelRunningConditions*) k:(LoadSingleInputManager*)controller;
 -(IBAction)checkRandomButton:(id)sender;
 -(IBAction)checkSideOptions:(id)sender;
 -(IBAction)setParameters:(id)sender;

@@ -35,6 +35,7 @@
 -(BOOL)InputIsPET;
 -(void)setTissueFile:(NSString *)file;
 -(IBAction)Finalize:		(id)sender;
+-(void) closeParamWindow;
 -(IBAction)ChangeTime:		(id)sender;
 -(IBAction)UseStd:			(id)sender;
 -(IBAction)ChangeUnits:		(id)sender;

@@ -47,10 +47,10 @@
 -(BOOL)addResult:(NSMutableDictionary *)entry{
 	
 	//validate the entry before adding
-	NSLog(@"YValues Classname:%@",[[entry objectForKey:@"YValues"] className]);
-	NSLog(@"XValues Classname:%@",[[entry objectForKey:@"XValues"] className]);
-	NSLog(@"WRSS %@",[entry objectForKey:@"WRSS"]);
-	NSLog(@"VB %@",[entry objectForKey:@"VB"]);
+//	NSLog(@"YValues Classname:%@",[[entry objectForKey:@"YValues"] className]);
+//	NSLog(@"XValues Classname:%@",[[entry objectForKey:@"XValues"] className]);
+//	NSLog(@"WRSS %@",[entry objectForKey:@"WRSS"]);
+//	NSLog(@"VB %@",[entry objectForKey:@"VB"]);
 	
 	if(![entry objectForKey:@"YValues"]  || ![entry objectForKey:@"XValues"] || ![entry objectForKey:@"WRSS"] || 
 	   ![entry objectForKey:@"VB"]) 

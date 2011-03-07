@@ -33,9 +33,9 @@
 		
 	
 	KMCustomModel *model = [[KMCustomModel alloc] initWithModelName:@"TestModel"];
-	id compartment = [[KMCustomCompartment alloc] initWithName:@"Test" type:@"Something"];
+//	id compartment = [[KMCustomCompartment alloc] initWithName:@"Test" type:@"Something"];
 	
-	[model addCompartment:compartment];
+//	[model addCompartment:compartment];
 	
 	[dam initWithModel:model];
 
@@ -47,7 +47,7 @@
 	//
 //	NSLog(@"Model Before Saving:%@", model);
 //	
-	NSMutableData *data;
+//	NSMutableData *data;
 //	
 //	NSString *archivePath = @"/Users/yangyang/Documents/ModelSave.test";
 //	
